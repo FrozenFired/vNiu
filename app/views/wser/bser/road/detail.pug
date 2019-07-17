@@ -1,0 +1,30 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+	.container.mt-3
+		include ./detail/selfHeader
+		hr
+		include ./detail/group
+		hr
+		include ./detail/client
+		hr
+		include ./detail/order
+
+
+		include ./detail/delete
+	.topNav-second.pt-2
+		.row.text-center
+			.col-4
+				a.btn.btn-link(href="/bsRoadUp/"+object._id) #{Lang.update}
+			.col-4
+				if object.order
+					- a;
+					a.btn.btn-link(href="/bsOrder/"+object.order._id) #{Lang.order}
+			.col-4
+				if object.printing == 1
+					-a;
+					button.btn.btn-warning.btn-block#cnlPrint(type="button", data-id=object._id) #{Lang.printing}
+				else
+					button.btn.btn-info.btn-block#taskPrint(type="button", data-id=object._id) #{Lang.print} <span class="oi oi-print"></span>
+	script(src="/js/bser/road/detail.js")

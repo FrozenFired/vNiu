@@ -1,0 +1,27 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+	.container.mt-4
+		.basic
+			.row
+				#imgClick
+					.imgSmall.offset-3.col-6
+						img(src=dns+object.photo, width="100%", style="max-width: 450px")
+							
+				table.table.table-border
+					tr
+						td: strong 产品编号
+						td #{object.code}
+					tr
+						td: strong 产品名
+						td #{object.nome}
+					tr
+						td: strong 出售价格
+						td #{object.price}
+					tr
+						td: strong 库存数量
+						td #{object.stock}
+					tr
+						td: strong 总销售量
+						td #{object.sellQuot}

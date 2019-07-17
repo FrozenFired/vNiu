@@ -1,0 +1,20 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:48px")
+	.container.mt-3
+		if crWser._id == object._id || object.role != 1
+			-a;
+			.row.text-right
+				.col-8
+				.col-2
+					include ./wser/upPwd
+				.col-2
+					include ./wser/upInfo
+		.row.mt-3
+			include ./wser/thisInfo
+	.topNav-second
+		.row.text-center(style="height:100%")
+			.col-4#back.pt-3.bg-warning <span class="oi oi-arrow-thick-left"></span>
+			.col-8.border-left.bg-light.pt-3 成员: #{object.code}
+	script(src="/js/bser/company/wser.js")

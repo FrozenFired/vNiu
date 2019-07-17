@@ -1,0 +1,36 @@
+extends ../aalayout/layout
+
+block content
+	.container
+		include ./update
+		.row.mt-4
+			table.table.border
+				tr
+					td 登录帐号:
+					td #{object.code}
+				tr
+					td 姓名:
+					td #{object.nome}
+				tr
+					td 打印纸型号:
+					td A#{object.printAx}
+				tr
+					td 角色:
+					td #{Conf.wsRole[object.role]}
+				tr
+					td 代号:
+					td #{object.cd}
+				if object.group
+					-group = object.group;
+					tr
+						td 公司:
+						td #{group.code}
+				tr
+					td 最近登录:
+						td #{moment(object.lgAt).format('DD/MM/YYYY HH:mm:ss')}
+				tr
+					td 创建时间:
+					td #{moment(object.ctAt).format('DD/MM/YYYY HH:mm:ss')}
+				tr
+					td 更新时间:
+					td #{moment(object.upAt).format('DD/MM/YYYY HH:mm:ss')}

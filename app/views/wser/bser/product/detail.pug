@@ -1,0 +1,24 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:48px")
+	.container
+		-let prodFir = object;
+		-let basicPhoto = prodFir.photo;
+		include ./detail/basic
+		div(style="height: 20px")
+		#sizePage
+			include ./detail/infoSize
+		#colorPage(style="display:none")
+			include ./detail/infoColor
+		#upPage(style="display:none")
+			include ./detail/upBasic
+		
+	.topNav-second
+		.row.text-center(style="height:100%")
+			.col-2#back.pt-3.border-right.bg-warning <span class="oi oi-arrow-thick-left"></span>
+			.col-3#sizeBtn.border-right.pt-3.btn-info #{prodFir.code}
+			.col-4#colorBtn.border-right.pt-3 详细
+			.col-3#upBtn.pt-3 更新
+	script(src="/js/bser/product/detail.js")
+	script(src="/js/bser/product/update.js")

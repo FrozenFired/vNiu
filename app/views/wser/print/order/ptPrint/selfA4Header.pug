@@ -1,0 +1,16 @@
+.row
+	.col-sm-4
+		h5 地址: #{group.addr}
+		div(style="height:5px")
+		h5 电话: #{group.tel}
+	.col-sm-4
+		- let cterCp = new Object();
+		if object.cter
+			- cterCp = object.cter;
+		h5 客户: #{cterCp.nome}
+		div(style="height:5px")
+		h5 电话: #{cterCp.tel}
+	.col-sm-4
+		h6 No: #{object.code}
+		h6 Date: #{moment(object.ctAt).format('DD/MM/YYYY')}
+div(style="height:20px")

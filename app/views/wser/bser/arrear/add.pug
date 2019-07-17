@@ -1,0 +1,54 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		.row
+			.col-10
+				h3 #{title}
+			.col-2
+				button.btn.btn-light(type="button", onclick="window.history.go(-1)") <span class="oi oi-x"></span>
+		hr
+		form#addBill(method="post", action=thisAct+"New", enctype="multipart/form-data")
+			input(type="hidden", name="obj[group]", value=crWser._id)
+			input(type="hidden", name="obj[photoDir]", value=Conf.photoPath.arrPhoto)
+			.row
+				.col-12(align="center")
+					img#crtImg(src="/imgs/createPicture.jpg", width="200px")
+			.form-group.row.udPhoto(style="display:none")
+				label.col-4.col-form-label(for="uploadPhoto") img
+				.col-8
+					input#uploadPhoto.btn.btn-info.btn-block(type="file", name="uploadPhoto")
+			hr
+			input.form-control(type="hidden", name="obj[fter]", value=fter._id)
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label.text-info #{Lang.factory}
+				label#showClient.col-8.col-sm-6 #{fter.nome}
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptDate") #{Lang.time}
+				.col-8.col-sm-6
+					input#iptDate.datepicker.form-control(type="text", name="obj[creation]", placeholder=Lang.holderTime, readonly="readonly")
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptUnpaid") #{Lang.cash}
+				.col-8.col-sm-6
+					input#iptUnpaid.form-control(type="text", name="obj[unpaid]", autocomplete="off")
+				.col-4
+				.col-8.col-sm-4
+					span#optUnpaid(style="display:none").text-danger #{Lang.optCash}
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptDesp") #{Lang.desp}
+				.col-8.col-sm-6
+					input#iptDesp.form-control(type="text", name="obj[desp]", autocomplete="off")
+			hr
+			.form-group.row
+				.offset-sm-2.col-sm-6
+					input.btn.btn-info.btn-block(type="submit" value=Lang.add)
+
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	//- <link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	//- timepicker
+	link(rel="stylesheet", href="/libs/jt.timepicker/jquery.timepicker.css")
+	script(src="/libs/jt.timepicker/jquery.timepicker.min.js")
+
+	script(src="/js/bser/arrear/add.js")

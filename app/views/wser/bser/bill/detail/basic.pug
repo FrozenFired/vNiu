@@ -1,0 +1,16 @@
+table.mt-4.table.border
+	-var cter = new Object();
+	if object.cter
+		-cter = object.cter;
+	tr
+		td: strong #{Lang.client}:
+		td: a.text-warning(href="/bsCter/"+cter._id) #{cter.nome}
+	tr
+		td: strong ctAt:
+		td #{moment(object.ctAt).format(Lang.ctAtFormat)}
+	tr
+		td: strong #{Lang.order}:
+		td
+			if object.order
+				-order = object.order;
+				a.text-warning(href="/bsOrder/"+order._id) #{order.code}

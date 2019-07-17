@@ -1,0 +1,27 @@
+.row
+	table.table.table-borderless.border.border-dark
+		thead
+			tr.textCenter
+				th.border.border-dark Code
+				th(colspan="2").border.border-dark Desc
+				th.border.border-dark.text-right QNT
+				th.border.border-dark.text-right Prezzo
+				th.border.border-dark.text-right Total(€)
+		tbody
+			-var proLen = object.products.length;
+			each product in object.products
+				-a;
+				tr
+					td #{product.code}
+					- let pdname = product.nome;
+					if pdname && pdname.length > 5
+						-pdname = pdname.slice(0,3)+'...';
+					td(colspan="2") #{pdname}
+					td.text-right #{product.quot}
+					td.text-right #{Math.round(product.price * 100)/100}
+					td.text-right #{Math.round(product.total * 100)/100}
+		thead
+			tr
+				th(colspan="2").border.border-dark TOT: #{proLen}
+				th(colspan="2").border.border-dark.text-right #{object.pieces} pz
+				th(colspan="2").border.border-dark.text-right IMP:  #{Math.round(object.imp * 100)/100} €

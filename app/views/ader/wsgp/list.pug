@@ -1,0 +1,17 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		table.table.table-hover.table-bordered
+			thead
+				tr
+					th code
+					th tel
+					th responser
+			tbody
+				each object in objects
+					-a;
+					tr(class="object-id-"+object._id)
+						td: a(href=thisAct+"/"+object._id) #{object.code}
+						td #{object.tel}
+						td #{object.resp}

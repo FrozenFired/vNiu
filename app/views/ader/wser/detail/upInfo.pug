@@ -1,0 +1,44 @@
+a.btn.btn-default(href="#", data-toggle="modal", data-target="#upInfo") 更新用户信息
+
+#upInfo.modal.fade
+	.modal-dialog
+		.modal-content
+			form#upInfo(method="post", action=thisAct+"UpInfo", enctype="multipart/form-data")
+				.modal-header: h3 更新用户信息 #{thisAct+"UpInfo"}
+				.modal-body
+					input(type="hidden", name="obj[_id]", value=object._id)
+					.form-group.row
+						label.col-3.col-form-label(for="iptCd") 代号
+						.col-9
+							input#iptCd.form-control(type="text", name="obj[cd]" value=object.cd)
+						.offset-3.col-9.col-form-label.text-danger
+					.form-group.row
+						label.col-3.col-form-label(for="iptNome") Name
+						.col-9
+							input#iptNome.form-control(type="text", name="obj[nome]" value=object.nome)
+						.offset-3.col-9.col-form-label.text-danger
+					.form-group.row
+						label.col-3.col-form-label(for="iptRl") role
+						.col-9
+							select#iptRl.form-control(name="obj[role]", data-style="btn-info")
+								each key in Object.keys(Conf.wsRole)
+									-a;
+									if object.role == key
+										-a;
+										option(value=key, selected="selected") #{Conf.wsRole[key]}
+									else
+										option(value=key) #{Conf.wsRole[key]}
+					.form-group.row
+						label.col-3.col-form-label(for="iptLang") language
+						.col-9
+							select#iptLang.form-control(name="obj[lang]", data-style="btn-info")
+								each key in Object.keys(Conf.wsLang)
+									-a;
+									if object.lang == key
+										-a;
+										option(value=key, selected="selected") #{Conf.wsLang[key]}
+									else
+										option(value=key) #{Conf.wsLang[key]}
+				.modal-footer
+					button.btn.btn-default(type="button" data-dismiss="modal") 取消
+					button.btn.btn-success(type="submit") 提交

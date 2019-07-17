@@ -1,0 +1,16 @@
+extends ../aalayout/layout
+
+block content
+	.containerTik460.mt-3
+		.noprint
+			input#ticketing(type="hidden", value=object.ticketing)
+			input#id(type="hidden", value=object._id)
+		.row.text-center
+			.col-sm-12
+				h2(style="font-size: 40px"): strong #{group.code}
+				h3 PREVENTIVO
+		hr
+		include ./ptTicket/tik460Header
+		include ./ptTicket/tik460Info
+
+	script(src="/js/pter/orderTicket.js")

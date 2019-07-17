@@ -1,0 +1,18 @@
+form#upClForm.my-3(method="post", action="/bsProdclUpd", enctype="multipart/form-data")
+	input(type="hidden", name="obj[photoDir]", value=Conf.photoPath.proPhoto)
+	input(type="hidden", name="obj[code]", value=prodFir.code+'-2')
+	input.form-control(type="hidden", name="obj[_id]", value=object._id)
+	.row.my-3
+		.col-12(align="center")
+			img#crtImg(src=clPhoto, width="200px")
+	.form-group.row.udPhoto(style="display:none")
+		label.col-4.col-form-label(for="uploadPhoto") PdImg
+		.col-8
+			input#uploadPhoto.btn.btn-info.btn-block(type="file", name="uploadPhoto")
+	.form-group.row
+		label.col-4.col-form-label(for="iptColor") #{Lang.color}
+		.col-8
+			input#iptColor.form-control(type="text", name="obj[color]", autocomplete="off", value=object.color)
+	.form-group.row
+			.col-12
+				input.btn.btn-success.btn-block(type="submit" value=Lang.add)

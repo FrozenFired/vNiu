@@ -1,0 +1,14 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		if crWser._id == object._id
+			-a;
+			.row.text-right
+				.col-8
+				.col-2
+					include ./detail/upPwd
+				.col-2
+					include ./detail/upInfo
+		.row.mt-3
+			include ./detail/thisInfo

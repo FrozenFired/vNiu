@@ -1,0 +1,19 @@
+extends ../aalayout/layout
+
+block content
+	.container
+		.row.noprint
+			.col-sm-4
+				h3.text-info 订单: [#{object.code}]
+			.col-sm-4
+				a.btn.btn-primary.btn-block(href="javascript:window.print()") 订单打印
+
+		.row.noprint(style="height:60px")
+
+		.row.text-center
+			.col-sm-12
+				h2(style="font-size: 40px"): strong #{group.code}
+				h3 PREVENTIVO
+		hr
+		include ./ptPrint/selfA5Header
+		include ./ptPrint/selfA5Info

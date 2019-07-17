@@ -1,0 +1,29 @@
+form#bsProdUpd(method="post", action="bsProdUpd", enctype="multipart/form-data")
+	input(type="hidden", name="obj[photoDir]", value=Conf.photoPath.proPhoto)
+	input#iptId(type="hidden", name="obj[_id]")
+	input#orgStock(type="hidden")
+	input#upStock(type="hidden", name="obj[stock]")
+	table.table.table-bordered
+		tr
+			td #{Lang.name}
+			td #{Lang.price}
+			td #{Lang.stock}
+		tr
+			td: span#pdNome
+			td: span#pdPrice
+			td: span#pdStock
+	.row
+		.col-12.proImg(align="center")
+			//- img#proImg(src=object.photo, width='100%')
+	hr
+	.form-group.row
+		label.col-4.col-form-label(for="iptAddquot", autocomplete="off") #{Lang.quot}
+		.col-8
+			input#iptAddquot.form-control(type="number", value=0, autocomplete="off")
+		.col-4
+		.col-8
+			span#optAddquot(style="display:none").text-danger #{Lang.optNumber}
+	.form-group.row
+		.col-sm-6
+		.col-sm-6.col-12
+			input.btn.btn-info.btn-block(type="submit" value=Lang.subAdd)

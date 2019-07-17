@@ -1,0 +1,57 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		.row
+			.col-10
+				h3 #{title}
+			.col-2
+				button.btn.btn-light(type="button", onclick="window.history.go(-1)") <span class="oi oi-x"></span>
+		hr
+		form#add(method="post", action=thisAct+"Upd", enctype="multipart/form-data")
+			input(type="hidden", name="obj[_id]", value=object._id)
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptCode") #{Lang.transpDocu} Nr.
+				.col-8.col-sm-6
+					input#iptCode.form-control(type="text", name="obj[code]", value=object.code, autocomplete="off")
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptNome").text-info #{Lang.name}
+				.col-8.col-sm-6
+					input#iptNome.form-control(type="text", name="obj[clientNome]", value=object.clientNome, placeholder=Lang.holderClName, autocomplete="off")
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptIva").text-info #{Lang.client} P.Iva
+				.col-8.col-sm-6
+					input#iptIva.form-control(type="text", name="obj[clientIva]", value=object.clientIva, autocomplete="off")
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptCF").text-info #{Lang.client} C.F.
+				.col-8.col-sm-6
+					input#iptCF.form-control(type="text", name="obj[clientCF]", value=object.clientCF, placeholder=Lang.holderCf, autocomplete="off")
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptAddr").text-info #{Lang.client} Addr.
+				.col-8.col-sm-6
+					input#iptAddr.form-control(type="text", name="obj[clientAddr]", value=object.clientAddr, autocomplete="off")
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptTel") #{Lang.client} Tel.
+				.col-8.col-sm-6
+					input#iptTel.form-control(type="text", name="obj[clientTel]", value=object.clientTel, autocomplete="off")
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptDest") Dest
+				.col-8.col-sm-6
+					input#iptDest.form-control(type="text", name="obj[dest]", value=object.dest, autocomplete="off")
+			hr
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptArt") #{Lang.artNum}
+				.col-8.col-sm-6
+					input#iptArt.form-control(type="number", name="obj[arts]", value=object.arts, autocomplete="off")
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptDesp") #{Lang.desp}
+				.col-8.col-sm-6
+					input#iptDesp.form-control(type="text", name="obj[desp]", value=object.desp, autocomplete="off")
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptPiece") #{Lang.pzNum}
+				.col-8.col-sm-6
+					input#iptPiece.form-control(type="number", name="obj[pieces]", value=object.pieces, autocomplete="off")
+			.form-group.row
+				.offset-sm-2.col-sm-6
+					input.btn.btn-info.btn-block(type="submit" value=Lang.update)
+	script(src="/js/bser/customer/add.js")

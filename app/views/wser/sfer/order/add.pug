@@ -1,0 +1,21 @@
+extends ../aalayout/layout
+
+block content
+
+	input#langstock(type="hidden", value=Lang.stock)
+	input#langorg(type="hidden", value=Lang.org)
+	input#langbill(type="hidden", value=Lang.bill)
+	input#langnote(type="hidden", value=Lang.note)
+
+	.container
+		.orderInformation
+			form.showPdsForm
+		include ./add/orderAdd
+		.clientInformation(style="display:none")
+			include ./add/client
+		.div(style="height:200px")
+
+	script(src="/const/const.js")
+	script(src="/js/sfer/order/update/update.js")
+	script(src="/js/sfer/order/update/productsAjax.js")
+	script(src="/js/sfer/order/update/client.js")

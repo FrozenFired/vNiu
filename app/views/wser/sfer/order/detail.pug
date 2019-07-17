@@ -1,0 +1,36 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+	.container.mt-3
+		input#orderId(type="hidden", value=object._id)
+		#sm.noprint
+			.downBtn(style="display:none")
+				.row.text-center.my-4
+					.col-6: a.btn.btn-info(href="/sfOrderPDF/"+object._id, download) <span class="oi oi-data-transfer-download"></span> PDF
+					.col-6: a.btn.btn-info(href="/sfOrderExcel/"+object._id, download) <span class="oi oi-data-transfer-download"></span> EXCEL
+			include ./detail/selfHeader
+			include ./detail/selfInfo
+
+		.row.mb-3.text-right.bg-light 
+			.col-12
+				span #{Lang.receipts}: #{Math.round(object.rlp * 100)/100}
+		include ./detail/note
+	.topNav-second.pt-2
+		.row.text-center
+			.col-4
+				button.btn.btn-link#downBtn(type="button") <span class="oi oi-data-transfer-download"></span>
+			.col-4
+				if object.printing == 1
+					-a;
+					button.btn.btn-link.btn-block#cnlPrint(type="button", data-id=object._id) #{Lang.printing}
+				else
+					button.btn.btn-link.btn-block#taskPrint(type="button", data-id=object._id) #{Lang.print} <span class="oi oi-print"></span>
+			.col-4
+				if object.ticketing == 1
+					-a;
+					button.btn.btn-link.btn-block#cnlTicket(type="button", data-id=object._id) #{Lang.printing}
+				else
+					button.btn.btn-link.btn-block#taskTicket(type="button", data-id=object._id) #{Lang.ticket} <span class="oi oi-print"></span>
+
+	script(src="/js/sfer/order/detail/detail.js")

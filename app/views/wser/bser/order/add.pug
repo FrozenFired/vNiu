@@ -1,0 +1,46 @@
+extends ./aalayout/layout
+
+block content
+	input#lang(type="hidden", value=Lang)
+	input#order(type="hidden", value=order)
+
+	-let imp = 0, pz=0;
+	each sell in order.sells
+		-let price = parseFloat(sell.price);
+		-let size = parseInt(sell.size);
+		-let quot = parseInt(sell.quot);
+		-let tot = price*size*quot;
+		if !isNaN(tot)
+			-imp += tot;
+			-pz += quot;
+
+
+	.container.mt-3
+		#prodPage
+
+		#cartPage(style="display:none")
+			include ./add/orderAdd	
+		#clientPage(style="display:none")
+			include ./add/client
+
+		.div(style="height:200px")
+		.bottomNav-first
+			.row(style="height:100%")
+				-let cterNome = '<span class="oi oi-person"></span>';
+				if order.cter
+					-cterNome = order.cter.nome;
+				.col-3.text-center.pt-3.border-right#clientBtn !{cterNome}
+				.col-4.pt-3.cartBtn
+					strong#artText.text-danger #{order.sells.length}
+					span &nbsp;Arts&nbsp;
+					strong#pzText.text-danger #{pz}
+					span &nbsp;Pz
+				.col-5.text-right.pt-2.cartBtn
+					strong#impText.text-danger #{imp} 
+					span € 
+					span(style="font-size:23px") <span class="oi oi-cart"></span> &nbsp;
+
+	script(src="/const/const.js")
+	script(src="/js/bser/order/add/add.js")
+
+	script(src="/js/bser/order/add/productsAjax.js")

@@ -1,0 +1,24 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:48px")
+	.container.mt-3
+		table.table.table-hover.table-bordered
+			thead
+				tr
+					th #{Lang.login}
+					th #{Lang.code}
+					th #{Lang.role}
+			tbody
+				each object in objects
+					-a;
+					tr(class="object-id-"+object._id)
+						td: a(href="/bsWser/"+object._id) #{object.code}
+						td #{object.cd}
+						td #{Conf.wsRole[object.role]}
+	.topNav-second
+		.row.text-center(style="height:100%")
+			.col-4#group.border-right.pt-3 公司信息
+			.col-4#wsers.border-right.pt-3.btn-info 成员
+			.col-4#pdcolor.pt-3 颜色
+	script(src="/js/bser/company/wser.js")

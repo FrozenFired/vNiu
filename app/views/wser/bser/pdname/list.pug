@@ -1,0 +1,23 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		.row
+			.col-12.text-right
+				a.btn.btn-warning(href="/bsPdnameCheck") <span class="oi oi-contrast"></span>
+		.row.mt-3
+			table.table.table-striped
+				thead
+					tr
+						td #
+						td names
+						td 频度
+				tbody
+					- let i = 0;
+					each pdname in pdnames
+						- i++;
+						tr
+							td #{i}
+							td #{pdname.nome}
+							td #{pdname.freq}
+

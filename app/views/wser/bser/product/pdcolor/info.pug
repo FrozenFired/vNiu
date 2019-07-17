@@ -1,0 +1,11 @@
+each prodsz in object.prodszs
+	-a;
+	.row.bg-light.mt-2.text-center
+		.col-2.pt-3: h4: a(href='/bsProdsz/'+prodsz._id) #{prodsz.size}
+		.col-4.py-2
+			span #{Lang.stock}: #{prodsz.stock}
+			br
+			span #{Lang.sellQuot}: #{prodsz.sellQuot}
+		.col-2.py-3.bg-light <span class="oi oi-minus"></span>
+		.col-2.py-3 #{prodsz.stock}
+		.col-2.py-3.bg-light <span class="oi oi-plus"></span>

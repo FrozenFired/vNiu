@@ -1,0 +1,53 @@
+.row
+	table.tableA5.table-borderless.border.border-dark
+		thead
+			tr.textCenter
+				th.border.border-dark: h2 Codice
+				th.border.border-dark: h2 Desc
+				th.border.border-dark: h2 QNT
+				th.border.border-dark: h2 Prezzo
+				th.border.border-dark: h2 Total(€)
+		tbody
+			-var proLen = object.products.length;
+			-var proNum = 0;
+			each product in object.products
+				-proNum += product.quot;
+				tr
+					td(style="font-size: 30px") #{product.code}
+					td(style="font-size: 30px") #{product.nome}
+					td.textRight(style="font-size: 30px") #{product.quot}
+					-let pdPrice = 'NaN';
+					if product.price && !isNaN(product.price)
+						- pdPrice = (product.price).toFixed(2);
+					td.textRight(style="font-size: 30px") #{pdPrice}
+					-let pdTotal = 'NaN';
+					if product.total && !isNaN(product.total)
+						- pdTotal = (product.total).toFixed(2);
+					td.textRight(style="font-size: 30px") #{pdTotal}
+			tr
+				td &nbsp;
+				td &nbsp;
+				td &nbsp;
+				td &nbsp;
+				td &nbsp;
+
+
+		tr
+			th.border.border-dark: h1 T.Art: #{proLen}
+			th.border.border-dark
+			th.border.border-dark.textRight: h1 Tot: #{proNum} pz
+			th.border.border-dark
+			-let odImp = 'NaN'
+			if object.imp && !isNaN(object.imp)
+				-odImp = (object.imp).toFixed(2);
+			th.border.border-dark.textRight: h1 IMP:  #{odImp} €
+if object.rlp != object.imp
+	-a;
+	.row.text-right.bg-info 
+		.col-12
+			h2 实收: #{(object.rlp).toFixed(2)}
+if object.bill
+	-bill = object.bill;
+	.row.mt-3
+		.col-6 Bill Desp: #{bill.desp}
+		.col-6 Unpaid: #{bill.unpaid} €

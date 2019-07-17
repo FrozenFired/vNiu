@@ -1,0 +1,32 @@
+extends ../aalayout/layout
+
+block content
+	.container
+		if crWser.printAx && crWser.printAx == 5
+			-a;
+			.noprint
+				h1 打印纸型号: A#{crWser.printAx}
+				input#printing(type="hidden", value=object.printing)
+				input#id(type="hidden", value=object._id)
+			.row.text-center
+				.col-sm-12
+					h2(style="font-size: 40px"): strong #{group.code}
+					h3 PREVENTIVO
+			hr
+			include ./ptPrint/selfA5Header
+			include ./ptPrint/selfA5Info
+		else
+			.containerA4
+				.noprint
+					h1 打印纸型号：A#{crWser.printAx}
+					input#printing(type="hidden", value=object.printing)
+					input#id(type="hidden", value=object._id)
+				.row.text-center
+					.col-sm-12
+						h4(style="font-size: 40px"): strong #{group.code}
+						h4 PREVENTIVO
+				hr
+				include ./ptPrint/selfA4Header
+				include ./ptPrint/selfA4Info
+
+	script(src="/js/pter/orderPrint.js")

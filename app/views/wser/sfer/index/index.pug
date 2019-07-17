@@ -1,0 +1,37 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		if crWser
+			-let nome=crWser.nome;
+			if !nome
+				-nome = crWser.code;
+			.row.border-bottom.pb-2
+				.col-12.text-right
+					span #{Lang.greet}, <strong class="text-warning">#{nome}</strong>
+					a(href="/sferInfo"): img.rounded-circle.ml-3(src=crWser.photo, width="40px")
+		.row
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/sfOrderAdd")
+					img(src="/imgs/index/order.png", width="50px", height="50px")
+					//- span Manual
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/sfOrderAdd") #{Lang.sales}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/sfOrders")
+					img(src="/imgs/index/orders.png", width="50px", height="50px")
+					//- span Order List
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/sfOrders") #{Lang.record}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/sfProds")
+					img(src="/imgs/index/deposits.png", width="50px", height="50px")
+					//- span Upload Excel
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/sfProds") #{Lang.depot}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/sfCters")
+					div(style="height:10px")
+					img(src="/imgs/index/customer.png", width="50px", height="40px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/sfCters") #{Lang.client}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/sfGroup")
+					img.rounded-circle(src="/imgs/index/office.jpg", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/sfGroup") #{Lang.company}

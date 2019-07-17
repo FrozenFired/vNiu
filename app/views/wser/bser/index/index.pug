@@ -1,0 +1,69 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		if crWser
+			-let nome=crWser.nome;
+			if !nome
+				-nome = crWser.code;
+			.row.border-bottom.pb-2
+				.col-12.text-right
+					span #{Lang.greet}, <strong class="text-warning">#{nome}</strong>
+					a(href="/bsMyInfo"): img.rounded-circle.ml-3(src=crWser.photo, width="40px")
+		.row
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsOrderAddPre")
+					img(src="/imgs/index/order.png", width="50px", height="50px")
+					//- span Manual
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsOrderAddPre") #{Lang.sales}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsProds")
+					img(src="/imgs/index/deposits.png", width="50px", height="50px")
+					//- span Upload Excel
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsProds") #{Lang.depot}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsOrders")
+					img(src="/imgs/index/orders.png", width="50px", height="50px")
+					//- span Order List
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsOrders") #{Lang.record}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsProdAdd")
+					img(src="/imgs/index/deposit.png", width="50px", height="50px")
+					//- span Order List
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsProdAdd") #{Lang.storage}
+		.row
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsCters")
+					div(style="height:10px")
+					img(src="/imgs/index/customer.png", width="50px", height="40px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsCters") #{Lang.client}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsBills")
+					img(src="/imgs/index/bill.jpg", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsBills") #{Lang.receivable}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsFters")
+					img(src="/imgs/index/factory.jpg", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsFters") #{Lang.factory}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsArrears")
+					img(src="/imgs/index/arrear.png", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsArrears") #{Lang.payable}
+		.row
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsRoads")
+					img(src="/imgs/index/road.png", width="60px", height="50px")
+					//- span Upload Excel
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsRoads") #{Lang.transDocu}
+			.col-6.col-lg-3.text-center.mt-3
+				a(href="/bsGroup")
+					img.rounded-circle(src="/imgs/index/office.jpg", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/bsGroup") #{Lang.company}
+		//- hr
+		//- form#qtzAdd(method="post", action="/qrCode", enctype="multipart/form-data")
+		//- 	.form-group.row
+		//- 		label.col-md-2.col-form-label(for="inputCode") 二维码生成器
+		//- 		.col-md-8
+		//- 			input#inputCode.form-control(type="text", name="words", autocomplete="off")
+		//- 		.col-md-2
+		//- 			input.btn.btn-info(type="submit" value="生成")

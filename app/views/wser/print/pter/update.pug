@@ -1,0 +1,19 @@
+a.btn.btn-info(href="#", data-toggle="modal", data-target="#upMgerInfo") 修改打印纸型号
+
+#upMgerInfo.modal.fade
+	.modal-dialog
+		.modal-content
+			form#updateInfo(method="post", action=thisAct+"Upd", enctype="multipart/form-data")
+				.modal-header: h3 修改打印纸型号
+				.modal-body
+					input(type="hidden", name="obj[_id]", value=object._id)
+					.form-group.row
+						label.col-4.col-form-label(for="iptName") 型号
+						.col-8
+							select#iptGp.form-control(name="obj[printAx]", data-style="btn-info")
+								option(value=4) A4
+								option(value=5) A5
+							//- input#iptName.form-control(type="text", name="obj[nome]" value=object.nome, autocomplete="off")
+				.modal-footer
+					button.btn.btn-default(type="button" data-dismiss="modal") 取消
+					button.btn.btn-success(type="submit") 提交

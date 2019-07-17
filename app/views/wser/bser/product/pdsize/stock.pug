@@ -1,0 +1,10 @@
+.row.mt-2.border-bottom
+	.col-4(style="font-size:30px") #{Lang.stock}: 
+	.col-5#textStock(style="font-size:30px") #{object.stock}
+	.col-5#formStrok(style="display:none")
+		form#bsProdszUpdAjax(method="post", action="/bsProdszUpdAjax", enctype="multipart/form-data")
+			input#iptId(type="hidden", name="obj[_id]", value=object._id)
+			input#iptStock.form-control(type="number", name="obj[stock]", value=object.stock, autocomplete="off")
+	.col-3.text-right
+		button#upStock.btn.btn-warning(type="button") <span class="oi oi-pencil"></span>
+		button#upCancel.btn.btn-secondary(type="button", style="display:none") <span class="oi oi-x"></span>

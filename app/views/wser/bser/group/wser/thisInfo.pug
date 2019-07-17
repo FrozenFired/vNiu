@@ -1,0 +1,32 @@
+table.table.border
+	tr
+		td #{Lang.login}:
+		td #{object.code}
+	tr
+		td #{Lang.name}:
+		td #{object.nome}
+	tr
+		td #{Lang.role}:
+		td #{Conf.wsRole[object.role]}
+	tr
+		td #{Lang.language}:
+		td #{Conf.wsLang[object.lang]}
+	tr
+		td #{Lang.code}:
+		td #{object.cd}
+	if object.group
+		-group = object.group;
+		tr
+			td #{Lang.company}:
+			td #{group.code}
+	tr
+		td #{Lang.recent}:
+		td #{moment(object.lgAt).format('DD/MM/YYYY HH:mm:ss')}
+	tr
+		td #{Lang.createAt}:
+		td #{moment(object.ctAt).format('DD/MM/YYYY HH:mm:ss')}
+	tr
+		td #{Lang.updateAt}:
+		td #{moment(object.upAt).format('DD/MM/YYYY HH:mm:ss')}
+.col-12.text-center
+	img(src=object.photo, width="100%", style="max-width: 350px; max-height: 400px")

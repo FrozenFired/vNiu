@@ -1,0 +1,13 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		include ./detail/basic
+		include ./detail/unpaid
+		include ./detail/note
+		hr
+		div(style="height:50px")
+		include ./detail/delete
+
+
+	script(src="/js/bser/bill/detail.js")

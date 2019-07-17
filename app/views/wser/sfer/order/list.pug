@@ -1,0 +1,38 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+
+	input#langday(type="hidden", value=Lang.day)
+	input#langmonth(type="hidden", value=Lang.month)
+	input#langitem(type="hidden", value=Lang.item)
+	input#langunItem(type="hidden", value=Lang.unItem)
+	input#langorgPrice(type="hidden", value=Lang.orgPrice)
+
+	.container
+		.days(style="display:none")
+		.day.mt-3
+
+	.topNav-second.p-1
+		.row.text-center
+			.col-4.pt-1
+				a.btn.btn-link(href='/sfordersMonth')
+					span #{Lang.day}
+					span.text-dark <span class="oi oi-loop"></span>
+					span.text-dark #{Lang.month}
+			.col-4.pt-2 #{crWser.cd}
+			.col-4
+				//- .selDate <span class="oi oi-loop-square"></span>
+				input#dirDate.datepicker.form-control(type="text", placeholder=Lang.holderDatepicker,readonly="readonly")
+
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	//- <link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	//- timepicker
+	link(rel="stylesheet", href="/libs/jt.timepicker/jquery.timepicker.css")
+	script(src="/libs/jt.timepicker/jquery.timepicker.min.js")
+
+	//- script(src="/js/sfer/order/list/listdayinit.js")
+	script(src="/js/sfer/order/list/listday.js")
+	script(src="/js/sfer/order/list/listdaysel.js")

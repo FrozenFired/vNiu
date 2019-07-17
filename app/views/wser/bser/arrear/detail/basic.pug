@@ -1,0 +1,15 @@
+table.table.border
+	-var fter = new Object();
+	if object.fter
+		-fter = object.fter;
+	tr
+		td: strong #{Lang.factory}:
+		td: a(href="/bsFter/"+fter._id) #{fter.nome}
+	tr
+		td: strong #{Lang.time}:
+		td 
+			if object.creation
+				-creation = object.creation;
+				span #{moment(creation).format(Lang.timeFormat)}
+			else
+				span 

@@ -1,0 +1,28 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+
+	input#langitem(type="hidden", value=Lang.item)
+	input#langorgPrice(type="hidden", value=Lang.orgPrice)
+	input#langloading(type="hidden", value=Lang.loading)
+
+	.container
+		.months(style="display:none")
+		.month.mt-3
+	.topNav-second.p-1
+		.row.text-center
+			.col-4.pt-1
+				a.btn.btn-link(href='/sforders')
+					span.text-dark #{Lang.day}
+					span.text-dark <span class="oi oi-loop"></span>
+					span #{Lang.month}
+			.col-4.pt-2 #{crWser.cd}
+			.col-4
+				select#selMonth.form-control(data-style="btn-info")
+					each month in months
+						-a;
+						option(value=month.key+'-'+month.vals+'-'+month.valf) #{month.key}
+	//- script(src="/js/sfer/order/list/listdayinit.js")
+	script(src="/js/sfer/order/list/listmon.js")
+	script(src="/js/sfer/order/list/listmonsel.js")

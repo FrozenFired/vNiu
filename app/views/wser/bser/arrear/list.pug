@@ -1,0 +1,57 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+
+	input#langfactory(type="hidden", value=Lang.factory)
+	input#langdesp(type="hidden", value=Lang.desp)
+	input#langunset(type="hidden", value=Lang.unset)
+	input#langlost(type="hidden", value=Lang.lost)
+
+	.container.mt-3
+		.row
+			//- a.btn.btn-block.btn-warning(href=thisAct+"Add") 添加欠款
+		input#sortCond(type="hidden", value=sortCond)
+		input#sortVal(type="hidden", value=sortVal)
+		input#count(type="hidden", value=count)
+
+		.objsKey.row
+		.objects.row
+		.topNav-second.p-1
+			.row.text-center
+				-caret = '<span class="oi oi-elevator"></span>';
+				if sortVal == 1
+					-caretB = '<span class="oi oi-caret-bottom"></span>';
+				else
+					-caretT = '<span class="oi oi-caret-top"></span>';
+
+				-let fterColor = creationColor = unpaidColor = 'text-dark';
+				-let fterCaret = creationCaret = unpaidCaret = '<span class="oi oi-elevator"></span>'
+				if sortCond == 'fter'
+					-fterColor = 'text-primary';
+					if sortVal == 1
+						-fterCaret = '<span class="oi oi-caret-top"></span>';
+					else
+						-fterCaret = '<span class="oi oi-caret-bottom"></span>';
+				else if sortCond == 'creation'
+					-creationColor = 'text-primary';
+					if sortVal == 1
+						-creationCaret = '<span class="oi oi-caret-top"></span>';
+					else
+						-creationCaret = '<span class="oi oi-caret-bottom"></span>';
+				else if sortCond == 'unpaid'
+					-unpaidColor = 'text-primary';
+					if sortVal == 1
+						-unpaidCaret = '<span class="oi oi-caret-top"></span>';
+					else
+						-unpaidCaret = '<span class="oi oi-caret-bottom"></span>';
+				.col-4
+					a.btn.btn-link(href='/bsArrears?sortCond=fter&sortVal='+(-parseInt(sortVal)))
+						span #{Lang.factory} !{fterCaret}
+				.col-4
+					a.btn.btn-link(href='/bsArrears?sortCond=creation&sortVal='+(-parseInt(sortVal)))
+						span #{Lang.time} !{creationCaret}
+				.col-4
+					a.btn.btn-link(href='/bsArrears?sortCond=unpaid&sortVal='+(-parseInt(sortVal)))
+						span #{Lang.cash} !{unpaidCaret}
+	script(src="/js/bser/arrear/list.js")

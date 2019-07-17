@@ -1,0 +1,57 @@
+.row.border-bottom.mb-4.pb-2#optBtn
+	.col-10.pt-2
+		h5 #{Lang.order}: [#{object.code}]
+	.col-2
+		button.btn.btn-link(type="button") <span class="oi oi-chevron-bottom"></span>
+.optBtn.text-center(style="display:none")
+	.row.my-4
+		.col-4
+			a.btn.btn-warning.btn-block(href="/bsOrderCp/"+object._id) <span class="oi oi-aperture"></span> #{Lang.clone}
+		.col-4
+			button.btn.btn-link#noteLab(type="button") <span class="oi oi-tag"></span> #{Lang.note}
+		.col-4
+			a.btn.btn-warning.btn-block(href="/bsOrderUp/"+object._id) #{Lang.update}
+	.row.my-4
+		.col-4
+			if object.cter
+				- cter = object.cter;
+				if object.bill
+					-a;
+					a.btn.btn-info.btn-block(href="/bsBill/"+object.bill) <span class="oi oi-magnifying-glass"></span> #{Lang.bill}
+				else
+					a.btn.btn-info.btn-block(href="/bsBillAdd?cter="+cter._id+"&order="+object._id+"&unpaid="+object.rlp) <span class="oi oi-plus"></span> #{Lang.bill}
+		.col-4
+		.col-4
+			a.btn.btn-info.btn-block(href="/bsRoadAdd?orderId="+object._id) #{Lang.transDocu}
+.row
+	if object.cter
+		- cter = object.cter;
+		.col-6
+			h5 #{Lang.client}: 
+				a.text-warning(href="/bsCter/"+cter._id) #{cter.nome}
+		.col-6
+			span #{Lang.tel}: #{cter.tel}
+	else
+		.col-4
+			button.btn.btn-info.btn-block.clientAjax(type="button") #{Lang.client} <span class="oi oi-person"></span>
+			button.btn.btn-info.btn-block.clientBtn(type="button", style="display:none") #{Lang.client} <span class="oi oi-person"></span>
+		.col-8.clientInfo(style="display:none")
+			form#formCters
+				input#ajaxCters.form-control(type="text", autocomplete="off")
+	.clientInfo(style="display:none")
+		.row.ctersAjax.text-center
+			.col-4
+				a(href="/bsCterAdd?order="+object._id)
+					div(class="card cancel m-2 bg-warning")
+						.card-body
+							.card-title #{Lang.newCl}
+			.col-8
+				div(class="card cancel m-2 bg-warning" id="client")
+					//- img.card-img-top(src="..." alt="Card image cap")
+					.card-body
+						h5.card-title #{Lang.cancelCl}
+		hr
+		.row.cterAllAjax
+div(style="height:20px")
+
+script(src="/js/bser/order/detail/clientAjax.js")

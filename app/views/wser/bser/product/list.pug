@@ -1,0 +1,71 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+	div(style="height:50px")
+
+	input#langcode(type="hidden", value=Lang.code)
+	input#langname(type="hidden", value=Lang.name)
+	input#langprice(type="hidden", value=Lang.price)
+	input#langstock(type="hidden", value=Lang.stock)
+	input#langpriceIn(type="hidden", value=Lang.priceIn)
+	input#langsellQuot(type="hidden", value=Lang.sellQuot)
+	input#langunName(type="hidden", value=Lang.unName)
+	input#langunPrice(type="hidden", value=Lang.unPrice)
+
+	.container.mt-3
+		.row.mb-5
+			.col-4
+				a.btn.btn-warning.btn-block(href="/bsProdAdd") <span class="oi oi-plus"></span>
+			.col-8.text-right
+				button.btn.btn-info.shield(type="button") <span class="oi oi-shield"></span>
+		input#sortCond(type="hidden", value=sortCond)
+		input#sortVal(type="hidden", value=sortVal)
+		.objsKey.row
+		.objects.row
+
+	.topNav-second.p-1
+		.row.text-center
+			-caret = '<span class="oi oi-elevator"></span>';
+			if sortVal == 1
+				-caretB = '<span class="oi oi-caret-bottom"></span>';
+			else
+				-caretT = '<span class="oi oi-caret-top"></span>';
+
+			-let quotColor = stockColor = priceColor = 'text-dark';
+			-let quotCaret = stockCaret = priceCaret = '<span class="oi oi-elevator"></span>'
+			if sortCond == 'sellQuot'
+				-quotColor = 'text-primary';
+				if sortVal == 1
+					-quotCaret = '<span class="oi oi-caret-top"></span>';
+				else
+					-quotCaret = '<span class="oi oi-caret-bottom"></span>';
+			else if sortCond == 'stock'
+				-stockColor = 'text-primary';
+				if sortVal == 1
+					-stockCaret = '<span class="oi oi-caret-top"></span>';
+				else
+					-stockCaret = '<span class="oi oi-caret-bottom"></span>';
+			else if sortCond == 'price'
+				-priceColor = 'text-primary';
+				if sortVal == 1
+					-priceCaret = '<span class="oi oi-caret-top"></span>';
+				else
+					-priceCaret = '<span class="oi oi-caret-bottom"></span>';
+			.col-4
+				a.btn.btn-link(href='/bsProds?sortCond=sellQuot&sortVal='+(-parseInt(sortVal)))
+					span #{Lang.sales} !{quotCaret}
+			.col-4
+				a.btn.btn-link(href='/bsProds?sortCond=stock&sortVal='+(-parseInt(sortVal)))
+					span #{Lang.stock} !{stockCaret}
+			.col-4
+				a.btn.btn-link(href='/bsProds?sortCond=price&sortVal='+(-parseInt(sortVal)))
+					span #{Lang.price} !{priceCaret}
+	.topNav-second2.p-1
+		.row.text-center
+			.col-12
+				form.ajaxForm
+					input.ajaxKey.productcode.form-control(type="text", placeholder=Lang.iptHolder, autocomplete="off")
+
+	script(src="/const/const.js")
+	script(src="/js/bser/product/list.js")

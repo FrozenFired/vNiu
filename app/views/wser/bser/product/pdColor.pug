@@ -1,0 +1,26 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:48px")
+	-let prodFir = new Object();
+	if object.product
+		- prodFir = object.product;
+
+	-let clPhoto = prodFir.photo;
+	if object.photo && object.photo != '/upload/product/1.jpg'
+		- clPhoto = object.photo;
+
+	.container
+		-let basicPhoto = clPhoto;
+		include ./detail/basic
+		div(style="height: 20px")
+		#clSizePage
+			include ./pdcolor/info
+		#upPage(style="display:none")
+			include ./pdcolor/upBasic
+	.topNav-second
+		.row.text-center(style="height:100%")
+			.col-4.back.border-right.bg-warning.pt-3(id="back-"+prodFir._id) <span class="oi oi-arrow-thick-left"></span> #{prodFir.code}
+			.col-4#clSizeBtn.border-right.pt-3.bg-light #{object.color}
+			.col-4#upBtn.pt-3 更新
+	script(src="/js/bser/product/subset/clDetail.js")

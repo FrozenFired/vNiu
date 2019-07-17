@@ -1,0 +1,28 @@
+.row
+	.text-center.border.bg-secondary.pt-2
+		.row
+			#imgClick.col-3
+				.imgSmall
+					img(src=dns+basicPhoto, width="100%", style="max-width: 450px")
+			.col-3
+				strong #{Lang.name}
+				br
+				span #{prodFir.nome}
+			.col-3
+				strong #{Lang.price}
+				br
+				span #{prodFir.price}
+			.col-3
+				strong #{Lang.priceIn}
+				br
+				span #{prodFir.priceIn}
+		.row
+			.col-3
+			.col-3
+				strong 材料
+				br
+				span #{prodFir.material}
+			.col-3
+				strong 门幅
+				br
+				span #{prodFir.width}

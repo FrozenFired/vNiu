@@ -1,0 +1,38 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+
+	input#langitem(type="hidden", value=Lang.item)
+	input#langorgPrice(type="hidden", value=Lang.orgPrice)
+	input#langloading(type="hidden", value=Lang.loading)
+
+	.container
+		.months(style="display:none")
+		.month.mt-3
+	.topNav-second.p-1
+		.row.text-center
+			.col-4.pt-1
+				a.btn.btn-link(href='/bsorders')
+					span.text-dark #{Lang.day}
+					span.text-dark <span class="oi oi-loop"></span>
+					span #{Lang.month}
+			.col-4
+				input#selWserCode(type="hidden", value=selWserCode)
+				select#selWser.form-control(data-style="btn-info")
+					option(value=0) #{Lang.all}
+					each wser in wsers
+						-a;
+						if wser.code == selWserCode
+							-a;
+							option(value=wser.code selected="selected") #{wser.code}
+						else
+							option(value=wser.code) #{wser.code}
+			.col-4
+				select#selMonth.form-control(data-style="btn-info")
+					each month in months
+						-a;
+						option(value=month.key+'-'+month.vals+'-'+month.valf) #{month.key}
+	//- script(src="/js/bser/order/list/listdayinit.js")
+	script(src="/js/bser/order/list/listmon.js")
+	script(src="/js/bser/order/list/listmonsel.js")

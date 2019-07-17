@@ -1,0 +1,16 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:48px")
+	.container.mt-3
+		.row
+			.col-12.text-right
+				include ./detail/upInfo
+			.col-12
+				include ./detail/thisInfo
+	.topNav-second
+		.row.text-center(style="height:100%")
+			.col-4#group.border-right.pt-3.btn-info 公司信息
+			.col-4#wsers.border-right.pt-3 成员
+			.col-4#pdcolor.pt-3 颜色
+	script(src="/js/bser/company/detail.js")

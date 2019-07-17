@@ -1,0 +1,52 @@
+extends ../aalayout/layout
+
+block content
+
+	input#langbill(type="hidden", value=Lang.bill)
+	input#langnote(type="hidden", value=Lang.note)
+	.container.mt-3
+		.row
+			.col-10
+				h3 #{title}
+			.col-2
+				button.btn.btn-light(type="button", onclick="window.history.go(-1)") <span class="oi oi-x"></span>
+		hr
+		form#addBill(method="post", action=thisAct+"New", enctype="multipart/form-data")
+			input(type="hidden", name="obj[group]", value=crWser._id)
+			if cter
+				-a;
+				input.form-control(type="hidden", name="obj[cter]", value=cter._id)
+				.form-group.row
+					label.col-4.col-sm-2.col-form-label.text-info #{Lang.client}
+					label#showClient.col-8.col-sm-6 #{cter.nome}
+			else
+				input#orderCter.form-control(type="hidden", name="obj[cter]")
+				.form-group.row
+					label.col-4.col-sm-2.col-form-label.text-info #{Lang.client}
+					label#showClient.btn.btn-info.btn-block.col-8.col-sm-6 client
+					.clientInformation(style="display:none")
+						include ./add/client
+					.col-4
+					.col-8.col-sm-4
+						#optCter.text-danger(style="display:none") 请选择客户
+			if orderId
+				-a;
+				input#iptOrder.form-control(type="hidden", name="obj[order]", value=orderId)
+			
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptUnpaid") #{Lang.cash}
+				.col-8.col-sm-6
+					input#iptUnpaid.form-control(type="text", name="obj[unpaid]", value=unpaid, autocomplete="off")
+				.col-4
+				.col-8.col-sm-4
+					span#optUnpaid(style="display:none").text-danger #{Lang.optCash}
+			.form-group.row
+				label.col-4.col-sm-2.col-form-label(for="iptDesp") #{Lang.desp}
+				.col-8.col-sm-6
+					input#iptDesp.form-control(type="text", name="obj[desp]", autocomplete="off")
+			hr
+			.form-group.row
+				.offset-sm-2.col-sm-6
+					input.btn.btn-info.btn-block(type="submit" value=Lang.add)
+	script(src="/js/bser/bill/add/add.js")
+	script(src="/js/bser/bill/add/client.js")

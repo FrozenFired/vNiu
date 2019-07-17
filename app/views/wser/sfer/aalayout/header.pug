@@ -1,0 +1,17 @@
+<style type="text/css" media=print> .noprint{display: none;} </style>
+.navbar.navbar-expand-xl.navbar-dark.bg-dark.fixed-top.noprint
+	a.navbar-brand.btn.btn-success(href="/sfer") <span class="oi oi-home"></span>
+	if thisUrl == "/sfOrderAdd" || thisUrl =="/sfOrderUp" || thisUrl =="/sfOrderCp"
+		-a;
+		include ../order/add/ajaxProduct
+	else
+		span.navbar-brand #{title}
+		button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation")
+			<span class="navbar-toggler-icon"></span>
+
+		.collapse.navbar-collapse#navbarTogglerDemo02
+			ul.navbar-nav.mr-auto.mt-2.mt-xl-0
+			ul.navbar-nav
+				li: a.btn.btn-danger.btn-block(href="/logout") <span class="oi oi-account-logout"></span>
+.row.noprint
+	div(style="height:59px")

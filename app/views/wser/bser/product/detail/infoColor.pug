@@ -1,0 +1,50 @@
+each prodcl in object.prodcls
+	-a;
+	.row.bg-light.mt-3.text-dark.text-center
+		.col-3
+			-let clPhoto = object.photo;
+			if prodcl.photo && prodcl.photo != '/upload/product/1.jpg'
+				- clPhoto = prodcl.photo;
+			img(src=clPhoto, width="100%", height="80px")
+		.col-3.pt-3: h3: a(href='/bsProdcl/'+prodcl._id) #{prodcl.color}
+		.col-4
+		.col-2.pt-4.pdszBtn(id="pdszBtn-"+prodcl._id) <span class="oi oi-chevron-bottom"></span>
+		.col-2.pt-4.minusClBtn.bg-danger(id="minusClBtn-"+prodcl._id, style="display:none")
+			a(href='/bsProdclDel/'+prodcl._id, id="minusClLink-"+prodcl._id) <span class="oi oi-minus"></span>
+	each prodsz in prodcl.prodszs
+		-a;
+		.row.border.mt-2.text-center(class="pdszPage pdszPage-"+prodcl._id, style="display:none")
+			.col-2.pt-3: h4: a(href='/bsProdsz/'+prodsz._id) #{prodsz.size}
+			.col-4.py-2
+				span #{Lang.stock}: #{prodsz.stock}
+				br
+				span #{Lang.sellQuot}: #{prodsz.sellQuot}
+			.col-2.py-3.bg-success <span class="oi oi-minus"></span>
+			.col-2.py-3 #{prodsz.stock}
+			.col-2.py-3.bg-success <span class="oi oi-plus"></span>
+
+
+
+.row.mt-5
+	.col-6
+		button.btn.btn-success#addClBtn(type="button") <span class="oi oi-plus"></span>
+	.col-6.text-right
+		button.btn.btn-danger#minusClBtn(type="button") <span class="oi oi-minus"></span>
+form#addClForm.mt-3(method="post", action="/bsProdclNew", enctype="multipart/form-data", style="display:none")
+	input.form-control(type="hidden", name="obj[product]", value=object._id)
+	.form-group.row
+		label.col-4.col-form-label(for="iptColor") #{Lang.color}
+		.col-8
+			select#iptColor.form-control(name="obj[color]", data-style="btn-info")
+				each color in colors
+					-let flag = 1;
+					each prodcl in object.prodcls
+						if prodcl.color == color
+							-flag = 0;
+							-break;
+					if flag == 1
+						-a;
+						option(value=color) #{color}
+	.form-group.row
+			.offset-sm-2.col-sm-6
+				input.btn.btn-info.btn-block(type="submit" value=Lang.add)

@@ -1,0 +1,25 @@
+.row.orgUnpaid
+	.col-4
+		button.btn.btn-default#unpaidLab(type="button") #{Lang.cash}
+	.col-8
+		-var unpaid = 0;
+		if object.unpaid && !isNaN(object.unpaid)
+			- unpaid = Math.round(object.unpaid * 100) / 100;
+		input#orgUnpaid(type="hidden", value=object.unpaid)
+		h3.text-danger #{unpaid} €
+hr
+.row.fixUnpaid(style="display:none")
+	.col-12
+		form#updUnpaid(method="post", action=thisAct+"Upd", enctype="multipart/form-data")
+			input(type="hidden", name="obj[_id]", value=object._id)
+			.form-group.row
+				.col-12
+					input#iptUnpaid.form-control(type="text", name="obj[unpaidFloat]", autocomplete="off")
+				.col-12
+					span#optUnpaid.text-danger(style="display:none") #{Lang.optCash}
+			.form-group.row
+				.col-4
+					button.btn.btn-default.btn-block#cancelUnpaid(type="button") <span class="oi oi-x"></span>
+				.col-4
+				.col-4
+					input.btn.btn-info.btn-block(type="submit", value=Lang.submit)

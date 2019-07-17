@@ -1,0 +1,70 @@
+.row
+	.col-3.pt-3: strong #{Lang.size}
+	.col-4.pt-3
+		each size in object.sizes
+			-a;
+			span #{size}, 
+	.col-5.text-right
+		button#addzsBtn.btn.btn-success(type="button") <span class="oi oi-plus"></span>
+		span &nbsp;  
+		if object.sizes.length > 0
+			-a;
+			button#minuszsBtn.btn.btn-danger(type="button") <span class="oi oi-minus"></span>
+form#addzsForm.border.p-3.my-3.bg-light(method="get", action="/bsProdszNew", style="display:none")
+	input.form-control(type="hidden", name="id", value=object._id)
+	.form-group.row
+		label.col-2.col-form-label(for="iptAddSize") <span class="oi oi-plus"></span>
+		.col-6
+			input#iptAddSize.form-control(type="number", name="sizes", autocomplete="off")
+		.col-4.col-sm-6
+			input.btn.btn-success.btn-block(type="submit" value=Lang.add)
+form#minuszsForm.border.p-3.my-3.bg-light(method="get", action="/bsProdszDel", style="display:none")
+	input.form-control(type="hidden", name="id", value=object._id)
+	.form-group.row
+		.col-12
+			.form-check
+				-i = 0;
+				each size in object.sizes
+					-i++;
+					input.form-check-input.minusSizes(id="sts"+size, type="checkbox", name="sizes", value=size)
+					label.form-check-label(for="sts"+size) #{size} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					if i%4 == 0
+						-a;
+						br
+	.form-group.row
+			.offset-sm-2.col-sm-6
+				input.btn.btn-danger.btn-block(type="submit" value=Lang.add)
+					
+table.table.table-bordered.mt-5
+	thead
+		tr
+			td
+			each size in object.sizes
+				-a;
+				td #{size}
+	tbody
+		each prodcl in object.prodcls
+			-a;
+			tr(class='color-'+prodcl._id)
+				td.pdcolor(id="pdcolor-"+prodcl._id)
+					span.txtColor.txtclsz(id="txtColor-"+prodcl._id) #{prodcl.color}
+					form.formColor.formclsz(id="formColor-"+prodcl._id, method="post", action="/bsProdclStockAjax", style="display:none")
+						input(type="hidden", name="obj[_id]", value=prodcl._id)
+						input.iptColor.iptclsz.form-control(id="iptColor-"+prodcl._id, type="number", autocomplete="off", name="obj[stock]")
+				each size in object.sizes
+					-let pdSize = new Object;
+					each prodsz in prodcl.prodszs
+						-a;
+						if prodsz.size == size
+							- pdSize = prodsz;
+							- break;
+					if pdSize
+						-a;
+						td.pdsize(id="pdSize-"+pdSize._id)
+							span.txtSize.txtclsz(id="txtSize-"+pdSize._id) #{pdSize.stock}
+							form.formSize.formclsz(id="formSize-"+pdSize._id, method="post", action="/bsProdszUpdAjax", style="display:none")
+								input(type="hidden", name="obj[_id]", value=pdSize._id)
+								input.iptSize.iptclsz.form-control(id="iptSize-"+pdSize._id, type="number", autocomplete="off", name="obj[stock]" value=pdSize.stock)
+					else
+						td x
+

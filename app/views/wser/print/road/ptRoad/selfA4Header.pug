@@ -1,0 +1,32 @@
+.row.border
+	.col-sm-5.border-right
+		.row
+			.col-12: h4 #{group.code}1
+			.col-12.my-2 Addr.: #{group.addr}, #{group.post}, #{group.city}
+			.col-12 P.IVA: #{group.iva}
+			.col-12 C.F.: #{group.cf}
+			.col-12.mt-2 Tel: #{group.tel}
+	.col-sm-7
+		.row
+			.col-12: h3 D.D.T.
+			.col-12: h5 DOCUMENTO DI TRASPORTO
+		.row.mt-2
+			.col-6 <strong>Nr.</strong> #{object.code}
+			.col-6.text-right
+				<strong>del</strong> #{moment(object.ctAt).format('DD/MM/YYYY')}
+		.row.mt-2
+			.col-4 a mezzo:
+			.col-4 <input type="checkbox"> cedente
+			.col-4 <input type="checkbox"> cessionario
+.row.border.my-1
+	.col-sm-6.border-right
+		.row
+			.col-12 #{object.clientNome}
+			.col-12 #{object.clientAddr}, #{object.city}
+			.col-12 P.IVA: #{object.clientIva}
+			.col-12 C.F.: #{object.clientCF}
+	.col-sm-6
+		.row
+			.col-12 LUOGO DI DESTINAZIONE:
+			.col-12.text-center.mt-2
+				h2 #{object.dest}

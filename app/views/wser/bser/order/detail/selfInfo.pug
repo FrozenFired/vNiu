@@ -1,0 +1,31 @@
+.row
+	table.table.table-borderless.border.border-dark
+		thead
+			tr.textCenter
+				th.border.border-dark Code
+				th.border.border-dark Size
+				th.border.border-dark.text-right QNT
+				th.border.border-dark.text-right Prezzo
+				th.border.border-dark.text-right Total(€)
+		tbody
+			-let pz=0, total=0;
+			each sell in object.sells
+				-let tot = 'NaN';
+				if !isNaN(sell.price) && !isNaN(sell.quot) && !isNaN(sell.size)
+					-tot = sell.price*sell.size*sell.quot;
+					-pz += sell.quot;
+					-total += tot;
+				tr
+					td #{sell.code} <br> #{sell.color}
+					- let pdname = sell.nome;
+					if pdname && pdname.length > 5
+						-pdname = pdname.slice(0,3)+'...';
+					td #{pdname} <br> #{sell.size}
+					td #{sell.width} <br> #{sell.quot}
+					td #{sell.material} <br> #{Math.round(sell.price * 100)/100}
+					td.text-right <br><strong>#{Math.round(tot * 100)/100}</strong>
+		thead
+			tr
+				th.border.border-dark TOT: #{object.sells.length}
+				th(colspan="2").border.border-dark.text-right #{pz} pz
+				th(colspan="2").border.border-dark.text-right IMP:  #{Math.round(total * 100)/100} €

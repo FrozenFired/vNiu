@@ -1,0 +1,35 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+
+	.container
+		.months(style="display:none")
+		.month.mt-3
+	.topNav-second.p-1
+		.row.text-center
+			.col-4
+				//- a.btn.btn-link(href='/monthOrders')
+				a.btn.btn-link(href='/adorders')
+					span.text-dark 日
+					span.text-dark <span class="oi oi-loop"></span>
+					span 月
+			.col-4
+				input#selWsgpId(type="hidden", value=selWsgpId)
+				select#selWsgp.form-control(data-style="btn-info")
+					option(value=0) 全部
+					each wsgp in wsgps
+						-a;
+						if wsgp._id == selWsgpId
+							-a;
+							option(value=wsgp._id selected="selected") #{wsgp.code}
+						else
+							option(value=wsgp._id) #{wsgp.code}
+			.col-4
+				select#selMonth.form-control(data-style="btn-info")
+					each month in months
+						-a;
+						option(value=month.key+'-'+month.vals+'-'+month.valf) #{month.key}
+	//- script(src="/js/ader/order/list/listdayinit.js")
+	script(src="/js/ader/order/list/listmon.js")
+	script(src="/js/ader/order/list/listmonsel.js")

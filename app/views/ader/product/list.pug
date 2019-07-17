@@ -1,0 +1,25 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		.row
+			.col-8
+				h4 商品数目: [ #{count} ]
+			.col-4
+				select#selWsgp.form-control(data-style="btn-info")
+					option(value='') 全部
+					each wsgp in wsgps
+						-a;
+						if wsgp._id == selWsgpId
+							-a;
+							option(value=wsgp._id selected="selected") #{wsgp.code}
+						else
+							option(value=wsgp._id) #{wsgp.code}
+		hr
+		.products.row
+		.productAll
+			include ../../aaPlugin/pageSlip
+			include ./list/selfList
+
+	script(src="/const/const.js")
+	script(src="/js/ader/product/list.js")

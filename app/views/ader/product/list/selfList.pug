@@ -1,0 +1,39 @@
+.row
+	input#len(type="hidden", value = objects.length)
+	-let i = -1;
+	each object in objects
+		- i++;
+		- let textStock = "text-default";
+		if object.stock < 0
+			- textStock = "text-danger";
+		else if object.stock < 100
+			- textStock = "text-warning";
+		.col-12.col-sm-4.p-2
+			.card
+				a.btn.btn-default.bg-light.text-dark(href=thisAct+"/"+object._id)
+					.row.text-left
+						.col-3
+							h5  #{object.code}
+							input(id="imgsrc-"+i, type="hidden", value=object.photo)
+							img.card-img(class="imgshow-"+i, src=dns+object.photo, alt=object.code)
+							//- img.card-img(class="imgshow-"+i, alt=object.code)
+						.col-9
+							.row
+								.col-12
+									- let nome = '名称未设置';
+									if object.nome
+										- nome = object.nome;
+									h4.card-title #{nome}
+							.row
+								.col-12
+									- let price = '价格未设置';
+									if object.price && !isNaN(object.price)
+										- price = (object.price).toFixed(2);
+									h5.card-text 售价: <span class="text-info">#{price}</span> €
+							.row.mt-2
+								.col-6
+									p.card-text 售出总量: #{object.sellQuot}
+								.col-6
+									p.card-text(class=textStock) 库存:#{object.stock} 
+//- script(src='/const/const.js')
+//- script(src='/js/srcimgs.js')

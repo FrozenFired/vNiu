@@ -1,0 +1,22 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+
+	input#langclient(type="hidden", value=Lang.client)
+
+	.container.mt-3
+		.row
+			.col-12.text-right
+				button.btn.btn-info.shield(type="button") <span class="oi oi-shield"></span>
+		input#count(type="hidden", value=count)
+		.roadKey.row
+		.roads.row
+
+	.topNav-second.p-1
+		.row.text-center
+			.col-12
+				form.ajaxForm
+					input.ajaxPdKey.roadcode.form-control(type="number", placeholder=Lang.holderAjaxKey, autocomplete="off")
+
+	script(src="/js/bser/road/list.js")

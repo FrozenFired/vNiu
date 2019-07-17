@@ -1,0 +1,53 @@
+.row.border
+	.col-6.border-right CAUSALE DEL TRASPORTO
+	.col-3.border-right Vs.ordine
+	.col-3
+		span <input type="checkbox"> cedente
+		br
+		span <input type="checkbox"> cedente
+
+.row.mt-2
+	table.tableA4.table.border.border-dark
+		thead
+			tr.textCenter
+				th.border.border-dark T.Art
+				th.border.border-dark Descizione
+				th.border.border-dark Quantita
+		tbody
+			tr
+				td #{object.arts}
+				td #{object.desp}
+				td.textRight #{object.pieces}
+			- let arrs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+			each arr in arrs
+				-a;
+				tr
+					td &nbsp;
+					td &nbsp;
+					td &nbsp;
+.row.mt-2
+	table.tableA4.table.table-bordered
+		tr
+			td
+				span ASPETTO ESTERIORE DEI BENI
+				br
+				span(style="color: white") :
+			td(colspan="2") N. COLLi
+			td PESO KG.
+			td PORTO
+			td TOTALE
+			td(style="color: white") ----
+		tr
+			td(colspan="2") 
+				span Consegna o inizio trasporto a mezzo
+				br
+				span(style="color: white") :
+			td(colspan="3") <font size="2">ORA E DATA DEL RITIRO</font>
+			td(colspan="2") <font size="2">FIRMA DEL CONDUCENTE</font>
+		tr
+			td(colspan="3")
+				span ANNOTAZIONI - VARIZAZIONI
+				br
+				span(style="color: white") :
+			td(colspan="2") <font size="2">Numero Progressivo</font>
+			td(colspan="2") <font size="2">FIRMA DEL DESTINATARIO</font>

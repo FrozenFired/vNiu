@@ -1,0 +1,12 @@
+.topNav-first.p-2
+	.row
+		.col-2
+			a.navbar-brand.btn.btn-success(href="/") <span class="oi oi-home"></span>
+		.col-10
+			form#ajaxPdsForm
+				.input-group
+					input#ajaxPdsCode.productcode.form-control(type="number", data-url="/orderAjaxBsProds", placeholder=Lang.holderAjaxCode, autocomplete="off", aria-label="Recipient's username", aria-describedby="basic-addon2")
+					.input-group-append
+						button#pdcodeAjaxCancel.btn.btn-outline-light(type="button") X
+.row.noprint
+	div(style="height:59px")

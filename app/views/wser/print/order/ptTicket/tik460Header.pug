@@ -1,0 +1,13 @@
+.row
+	.col-6
+		- let cterCp = new Object();
+		if object.cter
+			- cterCp = object.cter;
+		h5 Client: #{cterCp.nome}
+		div(style="height:5px")
+		h5 电话: #{cterCp.tel}
+	.col-6.text-right
+		h5 No: #{object.code}
+		div(style="height:5px")
+		h5 Date: #{moment(object.ctAt).format('DD/MM/YYYY')}
+div(style="height:20px")

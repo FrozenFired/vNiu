@@ -1,0 +1,23 @@
+.row
+	.col-12.text-right
+		a.btn.btn-warning(href="/bsArrearAdd?fter="+object._id) <span class="oi oi-plus"></span>
+if object.arrears && object.arrears.length > 0
+	-arrears = object.arrears;
+	table.table.border.mt-3
+		thead
+			tr
+				td #{Lang.time}
+				td #{Lang.desp}
+				td #{Lang.total}
+		tbody
+			- tot = 0;
+			each arrear in arrears
+				if !isNaN(parseFloat(arrear.unpaid))
+					-tot += parseFloat(arrear.unpaid);
+				tr(class="object-id-"+arrear._id)
+					td #{moment(arrear.creation).format('YYYY年MM月DD日')}
+					td #{arrear.desp}
+					td: a.text-warning(href="/bsArrear/"+arrear._id) #{arrear.unpaid}
+			tr.bg-secondary
+				td(colspan="2") #{Lang.total}:
+				td #{tot} €

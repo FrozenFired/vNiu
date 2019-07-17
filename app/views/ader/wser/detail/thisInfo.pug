@@ -1,0 +1,30 @@
+table.table.table-hover
+	if object.group
+		- group = object.group;
+		tr
+			td: strong Group:
+			td #{group.code}
+	tr
+		td: strong role:
+		td #{Conf.wsRole[object.role]}
+	tr
+		td: strong 语言:
+		td #{Conf.wsLang[object.lang]}
+	tr
+		td: strong Code:
+		td #{object.code}
+	tr
+		td: strong Cd:
+		td #{object.cd}
+	tr
+		td: strong name:
+		td #{object.nome}
+	tr
+		td: strong 上次登录时间:
+		td #{moment(object.lgAt).format('DD/MM/YYYY HH:mm:ss')}
+	tr
+		td: strong createAt:
+		td #{moment(object.ctAt).format('DD/MM/YYYY HH:mm:ss')}
+	tr
+		td: strong updateAt:
+		td #{moment(object.upAt).format('DD/MM/YYYY HH:mm:ss')}

@@ -1,0 +1,36 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+
+		input#codeRule(type="hidden", value=Lang.codeRule)
+		input#iptPd(type="hidden", value=Lang.iptPd)
+		input#oldPd(type="hidden", value=Lang.oldPd)
+		input#buyQuot(type="hidden", value=Lang.buyQuot)
+		input#oldNew(type="hidden", value=Lang.oldNew)
+		input#unName(type="hidden", value=Lang.unName)
+		input#unPrice(type="hidden", value=Lang.unPrice)
+		input#stock(type="hidden", value=Lang.stock)
+		input#color(type="hidden", value=Lang.color)
+
+		form.ajaxPdForm
+			.row
+				.col-2#back.bg-warning.text-center.pt-2 <span class="oi oi-arrow-thick-left"></span>
+				.col-10
+					input.ajaxPdKey.form-control(type="text", data-url="/orderAjaxBsProds", placeholder=Lang.iptHolderCode, autocomplete="off")
+				.col-2
+				.col-10
+					.ajaxInfo.text-info.mt-2(align="center") #{Lang.codeRule}
+		button.btnNewPd.btn.btn-info.btn-block.mt-2(type="button", style="display:none") #{Lang.newPd}
+		form.products
+
+		.newPd(style="display:none")
+			include ./add/newPd
+		.plusPd(style="display:none")
+			include ./add/plusPd
+		div(style="height:300px")
+
+	script(src="/const/const.js")
+	script(src="/js/bser/product/add/pdsAjax.js")
+	script(src="/js/bser/product/add/newPd.js")
+	script(src="/js/bser/product/add/plusPd.js")

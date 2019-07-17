@@ -1,0 +1,12 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		.row.my-5
+			.col-12
+				a.btn.btn-warning.btn-lg.btn-block.text-dark(href="/bsOrderAdd") <span class="oi oi-plus"></span>
+		each order in orders
+			-a;
+			.row.mt-3
+				.col-12
+					a.btn.btn-info.btn-block(href="/bsOrderAdd?orderId="+order._id) #{order.code}

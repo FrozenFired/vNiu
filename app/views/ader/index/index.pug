@@ -1,0 +1,37 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		.row.text-center
+			.col-6.col-lg-3.mt-3
+				a(href="/adOrders")
+					img(src="/imgs/index/orders.png", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/adOrders") 出售记录
+			.col-6.col-lg-3.mt-3
+				a(href="/adProds")
+					img(src="/imgs/index/deposits.png", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/adProds") 仓库
+			.col-6.col-lg-3.mt-3
+				a(href="/adWserAdd")
+					img(src="/imgs/index/staff.jpg", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/adWserAdd") 添加用户
+			.col-6.col-lg-3.mt-3
+				a(href="/adWsers")
+					img(src="/imgs/index/staff.jpg", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/adWsers") 用户列表
+			.col-6.col-lg-3.mt-3
+				a(href="/adWsgpAdd")
+					img(src="/imgs/index/office.jpg", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/adWsgpAdd") 新公司
+			.col-6.col-lg-3.mt-3
+				a(href="/adWsgps")
+					img(src="/imgs/index/office.jpg", width="50px", height="50px")
+				a.btn.btn-default.btn-lg.btn-block.text-dark(href="/adWsgps") 公司列表
+
+		//- form#test
+		//- 	.form-group.row
+		//- 		label.col-3.col-sm-2.col-form-label(for="ajaxProd") 帐号
+		//- 		.col-9.col-sm-6
+		//- 			input#ajaxProd.form-control(type="text")
+		//- 		.offset-3.col-9.col-form-label.text-danger
+	script(src="/js/ader/test.js")

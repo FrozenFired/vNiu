@@ -1,0 +1,16 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		include ./detail/basic
+		include ./detail/unpaid
+		include ./detail/note
+		hr
+		.row
+			.col-12(align="center")
+				img(src=dns+object.photo, width="100%")
+		div(style="height:50px")
+		include ./detail/delete
+
+
+	script(src="/js/bser/arrear/detail.js")

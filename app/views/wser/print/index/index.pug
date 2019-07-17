@@ -1,0 +1,25 @@
+extends ../aalayout/layout
+
+block content
+	.container
+		.row
+			.col-6.col-lg-3
+				a(href="/ptPrint")
+					img(src="/imgs/index/ptPrinter.jpg", width="180px", height="180px", style="margin-left: auto;  margin-right:auto;display:block;")
+					//- span Order List
+				a.btn.btn-default.btn-lg.btn-block(href="/ptPrint") 自动打印
+			.col-6.col-lg-3
+				a(href="/ptTicket")
+					img(src="/imgs/index/ptTicket.jpg", width="180px", height="180px", style="margin-left: auto;  margin-right:auto;display:block;")
+					//- span Order List
+				a.btn.btn-default.btn-lg.btn-block(href="/ptTicket") 小票打印
+			.col-6.col-lg-3
+				a(href="/ptRoad")
+					img(src="/imgs/index/ptPrinter.jpg", width="180px", height="180px", style="margin-left: auto;  margin-right:auto;display:block;")
+					//- span Order List
+				a.btn.btn-default.btn-lg.btn-block(href="/ptRoad") 路单打印
+			//- .col-6.col-lg-3
+			//- 	a(href="/ptOrders")
+			//- 		img(src="/imgs/index/ptOrders.jpg", width="180px", height="180px", style="margin-left: auto;  margin-right:auto;display:block;")
+			//- 		//- span Order List
+			//- 	a.btn.btn-default.btn-lg.btn-block(href="/ptOrders") 订单列表

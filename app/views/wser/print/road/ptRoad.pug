@@ -1,0 +1,12 @@
+extends ../aalayout/layout
+
+block content
+	.container
+		.noprint.mb-5.text-center
+			h1 路单自动打印
+			input#printing(type="hidden", value=object.printing)
+			input#id(type="hidden", value=object._id)
+		include ./ptRoad/selfA5Header
+		include ./ptRoad/selfA5Info
+
+	script(src="/js/pter/ptRoad.js")

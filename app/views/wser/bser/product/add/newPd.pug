@@ -1,0 +1,85 @@
+form.mt-3#bsProdNew(method="post", action=thisAct+"New", enctype="multipart/form-data")
+	input(type="hidden", name="obj[photoDir]", value=Conf.photoPath.proPhoto)
+	input#iptCode.form-control(type="hidden", name="obj[code]")
+	.row.my-3
+		.col-12(align="center")
+			img#crtImg.rounded-circle(src=dns+"/imgs/createPicture.jpg", width="200px")
+	.form-group.row.udPhoto(style="display:none")
+		label.col-4.col-form-label(for="uploadPhoto") PdImg
+		.col-8
+			input#uploadPhoto.btn.btn-info.btn-block(type="file", name="uploadPhoto")
+	.form-group.row
+		a#nomePoint(href="#nomeAnchor" style="display:none") viewAnchor
+		label.col-4.col-form-label(for="iptNome") <a name="nomeAnchor">#{Lang.name}</a>
+		.col-8
+			input#iptNome.form-control(type="text", name="obj[nome]", autocomplete="off")
+		.col-4
+		.col-8
+			span#optNome(style="display:none").text-danger #{Lang.optName}
+	#pdnameShow
+		#pdnameAjax.row.my-3
+		#pdnameAll.row.my-3(style="display:none")
+			each pdname in pdnames
+				-a;
+				.col-6.mt-2
+					//- button.btn.btn-light.btn-block.pdn(type="button", data-nome=pdname.nome) #{pdname.nome}
+					input.btn.btn-light.btn-block.pdn(type="button", value=pdname.nome)
+	.form-group.row
+		label.col-4.col-form-label(for="iptMater") 材质
+		.col-8
+			input#iptMater.form-control(type="text", name="obj[material]", autocomplete="off")
+		.col-4
+		.col-8
+			span#optMater(style="display:none").text-danger #{Lang.optNumber}
+
+	.form-group.row
+		label.col-4.col-form-label(for="iptWidth") 门幅
+		.col-8
+			input#iptWidth.form-control(type="text", name="obj[width]", autocomplete="off")
+		.col-4
+		.col-8
+			span#optWidth(style="display:none").text-danger #{Lang.optNumber}
+
+	.form-group.row
+		label.col-4.col-form-label(for="iptPrice") #{Lang.price}
+		.col-8
+			input#iptPrice.form-control(type="number", name="obj[price]", placeholder=Lang.holderNumber, autocomplete="off")
+		.col-4
+		.col-8
+			span#optPrice(style="display:none").text-danger #{Lang.optNumber}
+	.form-group.row
+		label.col-4.col-form-label(for="iptPriceIn") #{Lang.priceIn}
+		.col-8
+			input#iptPriceIn.form-control(type="number", name="obj[priceIn]", placeholder=Lang.holderNumber, autocomplete="off", value=0)
+		.col-4
+		.col-8
+			span#optPriceIn(style="display:none").text-danger #{Lang.optNumber}
+	.form-group.row
+		label.col-4.col-form-label(for="iptColor") #{Lang.color}
+		.col-8
+			.form-check
+				-i = 0;
+				each color in colors
+					-i++;
+					input.form-check-input(id="color-"+color, type="checkbox", name="obj[colors]", value=color)
+					label.form-check-label(for="color-"+color) #{color} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					if i % 2 == 0
+						-a;
+						br
+	.form-group.row#attrib0
+		label.col-4.col-form-label(for="iptSize") #{Lang.size}
+		.col-4
+			a.btn.btn-block.btn-warning#addAttrib(href="#") plus
+		.col-4
+			a.btn.btn-block.btn-danger#delAttrib(href="#") minus
+	.form-group.row#attrib1
+		label.col-4.col-form-label #{Lang.size}1
+		.col-8
+			input.form-control#attrVal(type="number" name="obj[sizes]" value=100)
+	hr
+	.form-group.row
+		.col-sm-6
+		.col-sm-6.col-12
+			input#btnSubmit.btn.btn-info.btn-block(type="button" value=Lang.subNew)
+#productImg
+

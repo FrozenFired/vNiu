@@ -1,0 +1,42 @@
+-products = object.products;
+-let i = -1;
+each product in products
+	- i=i+1;
+	.border.m-2.p-2(id="iptProduct-"+product.code)
+		.row
+			.col-3.del-formDel(id="del-formDel-"+product.code)
+				img(src=product.photo, width="100%" style="max-width:80px;max-height:80px;")
+				.m-2
+					<span class="badge badge-warning">清除</span>
+			.col-9
+				.row
+					.col-4(id="price-formTxt"+product.code) 
+						span #{Math.round(product.price*100)/100}
+					.col-4 #{product.code}
+					.col-4 #{product.nome}
+					//- // hidden 
+					input(type="hidden", id="code-"+product.code, name="obj[products]["+i+"][code]", value=product.code, readonly="readonly")
+					//- // hidden
+					if product.photo
+						-pdPhoto = product.photo;
+					else
+						-pdPhoto = "";
+					input.form-control(type="hidden", name="obj[products]["+i+"][photo]", value=photo, readonly="readonly")
+					//- // hidden
+					if product.nome
+						-pdNome = product.nome;
+					else
+						-pdNome = "";
+					input.form-control(type="hidden", name="obj[products]["+i+"][nome]", value=pdNome, readonly="readonly")
+					//- // hidden
+					input(id="price-formPd"+product.code, type="hidden", name="obj[products]["+i+"][price]", value=product.price, readonly="readonly")
+				hr
+				.row
+					input.col-6.form-control.quot-formPd(id="quot-formPd-"+product.code, type="number", name="obj[products]["+i+"][quot]", value=newQuot)
+
+					.col-2 Tot:
+					.col-4(id="total-formTxt-"+product.code) 
+						span #{Math.round(product.price*newQuot * 100)/100} €
+
+					//- // hidden
+					input.form-control(id="total-formPd-"+product.code, type="hidden", name="obj[products]["+i+"][total]", value=Math.round(product.price*newQuot * 100) / 100, readonly="readonly")

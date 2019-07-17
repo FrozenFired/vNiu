@@ -1,0 +1,56 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+
+	input#langclient(type="hidden", value=Lang.client)
+	input#langunset(type="hidden", value=Lang.unset)
+	input#langlost(type="hidden", value=Lang.lost)
+
+	.container.mt-3
+		.row
+			.col-12.text-right
+				a.btn.btn-warning(href=thisAct+"Add") <span class="oi oi-plus"></span>
+		input#sortCond(type="hidden", value=sortCond)
+		input#sortVal(type="hidden", value=sortVal)
+
+		.objsKey.row
+		.objects.row
+		.topNav-second.p-1
+			.row.text-center
+				-caret = '<span class="oi oi-elevator"></span>';
+				if sortVal == 1
+					-caretB = '<span class="oi oi-caret-bottom"></span>';
+				else
+					-caretT = '<span class="oi oi-caret-top"></span>';
+
+				-let cterColor = ctAtColor = unpaidColor = 'text-dark';
+				-let cterCaret = ctAtCaret = unpaidCaret = '<span class="oi oi-elevator"></span>'
+				if sortCond == 'cter'
+					-cterColor = 'text-primary';
+					if sortVal == 1
+						-cterCaret = '<span class="oi oi-caret-top"></span>';
+					else
+						-cterCaret = '<span class="oi oi-caret-bottom"></span>';
+				else if sortCond == 'ctAt'
+					-ctAtColor = 'text-primary';
+					if sortVal == 1
+						-ctAtCaret = '<span class="oi oi-caret-top"></span>';
+					else
+						-ctAtCaret = '<span class="oi oi-caret-bottom"></span>';
+				else if sortCond == 'unpaid'
+					-unpaidColor = 'text-primary';
+					if sortVal == 1
+						-unpaidCaret = '<span class="oi oi-caret-top"></span>';
+					else
+						-unpaidCaret = '<span class="oi oi-caret-bottom"></span>';
+				.col-4
+					a.btn.btn-link(href='/bsBills?sortCond=cter&sortVal='+(-parseInt(sortVal)))
+						span #{Lang.client} !{cterCaret}
+				.col-4
+					a.btn.btn-link(href='/bsBills?sortCond=ctAt&sortVal='+(-parseInt(sortVal)))
+						span #{Lang.time} !{ctAtCaret}
+				.col-4
+					a.btn.btn-link(href='/bsBills?sortCond=unpaid&sortVal='+(-parseInt(sortVal)))
+						span #{Lang.cash} !{unpaidCaret}
+	script(src="/js/bser/bill/list.js")

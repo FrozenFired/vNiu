@@ -1,0 +1,33 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:48px")
+	.container.mt-3
+		.row
+			.col-4
+				button#addClBtn.btn.btn-warning.btn-block(type="button") <span class="oi oi-plus"></span>
+			.col-8.text-right
+				button.btn.btn-warning.shield(type="button") <span class="oi oi-shield"></span>
+		form#addClForm.mt-5.bg-light.pt-2(method="post", action="/bsColorNew", enctype="multipart/form-data", style="display:none")
+			.form-group.row
+				label.col-3.col-sm-2.col-form-label(for="iptColor") 颜色
+				.col-6.col-sm-6
+					input#iptColor.form-control(type="text", name="obj[color]", value=code, autocomplete="off")
+				.col-3.col-sm-6
+					input.btn.btn-info.btn-block(type="submit" value=添加)
+		if colors && colors.length > 0
+			-let i=0;;
+			table#colorTable.mt-5.table.table-hover
+				each color in colors
+					-i++;
+					tr(class="color-"+color)
+						td #{i}
+						td #{color}
+						td.shieldElem.text-right(style="display:none")
+							button.btn.btn-danger.del(type="button", data-color=color) del
+	.topNav-second
+		.row.text-center(style="height:100%")
+			.col-4#group.border-right.pt-3 公司信息
+			.col-4#wsers.border-right.pt-3 成员
+			.col-4#pdcolor.pt-3.btn-info 颜色
+	script(src="/js/bser/company/color.js")

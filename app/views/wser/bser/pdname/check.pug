@@ -1,0 +1,32 @@
+extends ../aalayout/layout
+
+block content
+	.container.mt-3
+		.row
+			.col-12.text-right
+				a.btn.btn-danger(href="/bsPdnameInit") <span class="oi oi-wrench"></span>
+		.row.mt-3
+			.col-6
+				h3.text-center 名字数据库
+				table.table.table-striped
+					thead
+						tr
+							td names[频度]
+					tbody
+						- let i = 0;
+						each pdname in pdnames
+							- i++;
+							tr
+								td #{pdname.nome} [#{pdname.freq}]
+			.col-6
+				h3.text-center 商品数据库
+				table.table.table-striped
+					thead
+						tr
+							td names[频度]
+					tbody
+						- let j = 0;
+						each pdn in pdns
+							- j++;
+							tr
+								td #{pdn.nome} [#{pdn.freq}]

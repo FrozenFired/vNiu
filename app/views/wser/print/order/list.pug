@@ -1,0 +1,46 @@
+extends ../aalayout/layout
+
+block content
+	.container
+		.row
+			.col-8
+				h3 #{title} [ #{count} ]
+		hr
+		include ../../../aaPlugin/pageSlip
+		
+		table.table.table-hover.table-bordered
+			thead
+				tr
+					th(width="30%") 订单编号
+					th(width="25%") 价格(€)
+					th(width="25%") 时间
+					th(width="20%") 打印状态
+			tbody
+				each object in objects
+					-a;
+					tr(class="object-id-"+object._id)
+						- let code = 'view';
+						if object.code
+							-code = object.code;
+						td: a(href=thisAct+"/"+object._id) #{code}
+						if object.rlp > object.imp
+							- bgPrice = "text-danger";
+						else if object.rlp == object.imp
+							- bgPrice = "text-default";
+						else if object.rlp < object.imp && object.rlp >= object.imp*0.9
+								- bgPrice = "text-success";
+						else
+							- bgPrice = "text-danger";
+						td.text-right(class=bgPrice)
+							span #{Math.round(object.rlp*100)/100}
+						td #{moment(object.ctAt).format('MM/DD/YYYY HH:mm:ss')}
+						td 
+							if object.printing == 1
+								-a;
+								span 打印队列 &nbsp;&nbsp;&nbsp;
+								span: button.btn.btn-info.cnlPrint(type="button", data-value=0, data-id=object._id) 取消
+							else
+								span 未激活 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								span: button.btn.btn-warning.cnlPrint(type="button", data-value=1, data-id=object._id) 激活
+
+	script(src="/js/pter/orderlist.js")

@@ -1,0 +1,21 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+
+	.container.mt-3
+		.basic
+			.row
+				.col-12.text-right
+					include ./detail/update
+			include ./detail/basic
+			include ./detail/note
+			include ./detail/delete
+		.arrearsRcd(style="display:none")
+			include ./detail/arrears
+
+	.topNav-second
+		.row.text-center(style="height:100%")
+			.col-6#basic.pt-3.btn-info #{Lang.basic}
+			.col-6#arrearsRcd.pt-3 #{Lang.arrears} [#{object.arrears.length}]
+	script(src="/js/bser/factory/detail.js")

@@ -1,0 +1,46 @@
+form#upInfo(method="post", action=thisAct+"Upd", enctype="multipart/form-data")
+	input(type="hidden", name="obj[_id]", value=object._id)
+	input(type="hidden", name="obj[photoDir]", value=Conf.photoPath.proPhoto)
+	input(type="hidden", name="obj[orgPhoto]", value=object.photo)
+	.row
+		.offset-3.col-6
+			img#proImg(src=dns+object.photo, width='100%')
+	hr
+	.form-group.udPhoto.row(style="display:none")
+		.col-12
+			label.col-form-label(for="uploadPhoto") pdImg
+			input#uploadPhoto.btn.btn-info.btn-block(type="file", name="uploadPhoto")
+	.form-group.row
+		label.col-4.col-form-label(for="iptCode") #{Lang.code}
+		.col-8
+			input#iptCode.form-control(type="text", name="obj[code]", value=object.code, autocomplete="off")
+		.offset-4.col-8.col-form-label#optCode(style="display:none").text-danger 请输入产品编号
+	hr
+	.form-group.row
+		label.col-4.col-form-label(for="iptNome") #{Lang.name}
+		.col-8
+			input#iptNome.form-control(type="text", name="obj[nome]", value=object.nome, autocomplete="off")
+		.offset-4.col-8.col-form-label#optName(style="display:none").text-danger 请输入产品名
+	.form-group.row
+		label.col-4.col-form-label(for="iptMater") 材质
+		.col-8
+			input#iptMater.form-control(type="text", name="obj[material]", value=object.material, autocomplete="off")
+		.offset-4.col-8.col-form-label#optName(style="display:none").text-danger 请输入材质
+	.form-group.row
+		label.col-4.col-form-label(for="iptWidth") 门幅
+		.col-8
+			input#iptWidth.form-control(type="text", name="obj[width]", value=object.width, autocomplete="off")
+		.offset-4.col-8.col-form-label#optName(style="display:none").text-danger 请输入门幅
+	.form-group.row
+		label.col-4.col-form-label(for="iptPrice") #{Lang.price} 
+		.col-8
+			input#iptPrice.form-control(type="text", name="obj[price]", value=object.price, autocomplete="off")
+		.offset-4.col-8.col-form-label#optPrice(style="display:none").text-danger 输入正确的出售价格
+	.form-group.row
+		label.col-4.col-form-label(for="iptPriceIn") #{Lang.priceIn} 
+		.col-8
+			input#iptPriceIn.form-control(type="text", name="obj[priceIn]", value=object.priceIn, autocomplete="off")
+		.offset-4.col-8.col-form-label#optPriceIn(style="display:none").text-danger 输入正确的采购价格
+	.form-group.row
+		.col-sm-6.col-12
+			input#btnSubmit.btn.btn-info.btn-block(type="submit" value=Lang.subNew)

@@ -1,0 +1,18 @@
+.row.orgNote
+	.col-4: button.btn.btn-info#noteLab(type="button") #{Lang.note}
+	.col-8
+		input#orgNote(type="hidden", value=object.note)
+		h3 #{object.note}
+.row.fixNote(style="display:none")
+	.col-12
+		form#orderUpd(method="post", action=thisAct+"Upd", enctype="multipart/form-data")
+			input(type="hidden", name="obj[_id]", value=object._id)
+			.form-group.row
+				.col-12
+					textarea#iptNote.form-control(type="text", rows="3", name="obj[note]")
+			.form-group.row
+				.col-4
+					button.btn.btn-default.btn-block#cancelNote(type="button") <span class="oi oi-x"></span>
+				.col-4
+				.col-4
+					input.btn.btn-info.btn-block(type="submit", value=Lang.submit)

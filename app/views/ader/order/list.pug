@@ -1,0 +1,44 @@
+extends ../aalayout/layout
+
+block content
+	div(style="height:50px")
+
+	.container
+		.days(style="display:none")
+		.day.mt-3
+			//- input#dirDate.datepicker.form-control(type="text", placeholder="点击，选择日期",readonly="readonly")
+
+	.topNav-second.p-1
+		.row.text-center
+			.col-4
+				//- a.btn.btn-link(href='/monthOrders')
+				a.btn.btn-link(href='/adordersMonth')
+					span 日
+					span.text-dark <span class="oi oi-loop"></span>
+					span.text-dark 月
+			.col-4
+				input#selWsgpId(type="hidden", value=selWsgpId)
+				select#selWsgp.form-control(data-style="btn-info")
+					option(value=0) 全部
+					each wsgp in wsgps
+						-a;
+						if wsgp._id == selWsgpId
+							-a;
+							option(value=wsgp._id selected="selected") #{wsgp.code}
+						else
+							option(value=wsgp._id) #{wsgp.code}
+			.col-4
+				//- .selDate <span class="oi oi-loop-square"></span>
+				input#dirDate.datepicker.form-control(type="text", placeholder="选择日期",readonly="readonly")
+
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	//- <link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	//- timepicker
+	link(rel="stylesheet", href="/libs/jt.timepicker/jquery.timepicker.css")
+	script(src="/libs/jt.timepicker/jquery.timepicker.min.js")
+
+	//- script(src="/js/ader/order/list/listdayinit.js")
+	script(src="/js/ader/order/list/listday.js")
+	script(src="/js/ader/order/list/listdaysel.js")
