@@ -4,44 +4,35 @@
 			tr.textCenter
 				th.border.border-dark Codice
 				th.border.border-dark Desc
+				th.border.border-dark Size
 				th.border.border-dark QNT
 				th.border.border-dark Prezzo
 				th.border.border-dark Total(€)
 		tbody
-			-var proLen = object.products.length;
-			-var proNum = 0;
-			each product in object.products
-				-proNum += product.quot;
+			-let pz = 0, total=0;
+			each sell in object.sells
+				-let tot = 0;
+				if !isNaN(sell.price) && !isNaN(sell.size) && !isNaN(sell.quot)
+					-pz += sell.quot;
+					-tot = sell.price * sell.size * sell.quot;
+					-total += tot;
 				tr
-					td #{product.code}
-					td #{product.nome}
-					td.textRight #{product.quot}
+					td #{sell.code}
+					td #{sell.nome}
+					td.text-right.border-left.border-dark #{sell.size}
+					td.text-right #{sell.quot}
 					-let pdPrice = 'NaN';
-					if product.price && !isNaN(product.price)
-						- pdPrice = (product.price).toFixed(2);
-					td.textRight #{pdPrice}
-					-let pdTotal = 'NaN';
-					if product.total && !isNaN(product.total)
-						- pdTotal = (product.total).toFixed(2);
-					td.textRight #{pdTotal}
+					if sell.price && !isNaN(sell.price)
+						- pdPrice = (sell.price).toFixed(2);
+					td.text-right #{pdPrice}
+					td.text-right.border-left.border-dark #{tot.toFixed(2)}
 			tr
-				td &nbsp;
-				td &nbsp;
-				td &nbsp;
-				td &nbsp;
-				td &nbsp;
+				td(colspan="2") &nbsp;
+				td(colspan="3").border-left.border-dark &nbsp;
+				td.border-left.border-dark &nbsp;
 
 
 		tr
-			th.border.border-dark T.Art: #{proLen}
-			th.border.border-dark
-			th.border.border-dark.textRight Tot: #{proNum} pz
-			th.border.border-dark
-			-let odImp = 'NaN'
-			if object.imp && !isNaN(object.imp)
-				-odImp = (object.imp).toFixed(2);
-			th.border.border-dark.textRight IMP:  #{odImp}
-if object.rlp != object.imp
-	.row.text-right.bg-info 
-		.col-12
-			h2 实收: #{(object.rlp).toFixed(2)}
+			th.border.border-dark(colspan="2") T.Art: #{object.sells.length}
+			th.border.border-dark.text-center(colspan="3") Tot: #{pz} pz
+			th.border.border-dark.text-right IMP:  #{total.toFixed(2)}
