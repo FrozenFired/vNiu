@@ -15,7 +15,7 @@ exports.bsProdszFilter = function(req, res, next) {
 	ObjDB.findOne({_id: id, 'group': crWser.group, 'layer': 3})
 	.populate('product')
 	.populate('prodcl')
-	.populate('sells')
+	.populate('sells.order')
 	.exec(function(err, object) {
 		if(err) {
 			console.log(err);

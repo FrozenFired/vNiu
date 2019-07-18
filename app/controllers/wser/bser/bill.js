@@ -59,11 +59,14 @@ exports.bsBillsAjax = function(req, res) {
 			.sort({[sortCond]: sortVal})
 			.skip(skip)
 			.limit(12)
-			.exec(function(err, objects) { if(err) {
-				res.json({success: 0, info: "bs查找订单时, 订单数据库错误, 请联系管理员"})
-			} else {
-				res.json({success: 1, objects: objects, keyCount: keyCount})
-			} })
+			.exec(function(err, objects) {
+				if(err) {
+					res.json({success: 0, info: "bs查找订单时, 订单数据库错误, 请联系管理员"})
+				} else {
+					// console.log(objects[0])
+					res.json({success: 1, objects: objects, keyCount: keyCount})
+				}
+			})
 		}
 	})
 }
@@ -178,7 +181,8 @@ exports.bsBillAdd =function(req, res) {
 	let cterId = req.query.cter;
 	let orderId = req.query.order;
 	let unpaid = req.query.unpaid;
-
+	// console.log(orderId)
+	console.log(unpaid)
 	Cter.findOne({_id: cterId}, function(err, cter) { if(err) {
 		info = "bs创建账单Add时, 客户信息查找错误, 请联系管理员";
 		Err.wsError(req, res, info);

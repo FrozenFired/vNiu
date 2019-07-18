@@ -96,15 +96,19 @@ let bsOrderCrt = function(req, res, cpOrder) {
 		orderObj.code = code;
 		orderObj.status = 0;
 		if(cpOrder) {
-			orderObj.status = 1;
+			orderObj.status = 2;
 			orderObj.sells = cpOrder.sells;
 			orderObj.cter = cpOrder.cter;
+
+			orderObj.arts = cpOrder.arts;
+			orderObj.pieces = cpOrder.pieces;
+			orderObj.imp = cpOrder.imp;
 		}
 		let _order = new Order(orderObj);
-		bsOrderLoopSave(req, res, orderObj)
+		bsOrderLoopSave(req, res, orderObj, cpOrder);
 	}})
 }
-let bsOrderLoopSave = function(req, res, obj) {
+let bsOrderLoopSave = function(req, res, obj, cpOrder) {
 	let crWser = req.session.crWser;
 	Order.findOne({'code': obj.code, 'group': crWser.group})
 	.exec(function(err, order) { if(err) {
@@ -122,7 +126,7 @@ let bsOrderLoopSave = function(req, res, obj) {
 			dayNum = "0" + dayNum;            
 		}
 		obj.code = precode + String(dayNum)
-		bsOrderLoopSave(req, res, obj);
+		bsOrderLoopSave(req, res, obj, cpOrder);
 	} else {
 		if(!obj.cter || obj.cter.length <20) obj.cter = null;
 		let _order = new Order(obj)
@@ -131,6 +135,8 @@ let bsOrderLoopSave = function(req, res, obj) {
 				console.log(err);
 				info = "bsOrderLoopSave, _order.save, Error!";
 				Err.wsError(req, res, info);
+			} else if(cpOrder) {
+				res.redirect('/bsOrder/'+objSave._id)
 			} else {
 				res.redirect('/bsOrderAdd?orderId='+objSave._id)
 			}
@@ -239,27 +245,44 @@ exports.bsOrderPlusPdAjax = function(req, res) {
 				} else if(!prodThr) {
 					res.json({success: 0, info: "操作错误, 请刷新重试!"})
 				} else {
-					let flag = 1;
+					let flag = 1;	// flag是判断 增 删 改 的标记
+					// 循环order中的sells 找出对应的 product
 					for(i=0; i<order.sells.length;i++){
-						let sell = order.sells[i];
-						if(String(sell.prodThr) == String(prodThr._id)) {
-							prodThr.stock = prodThr.stock - (quot - sell.quot);
-							if(quot == 0) {
-								// 删除 order sells pd
-								order.sells.remove(sell)
-								flag = 2;
-								break;
-							} else {
-								// 更新 order sells pd
-								sell.quot = quot;
-								flag = 3;
-								break;
+						// 找出与prodThr相对应的 order中的sell
+						if(String(order.sells[i].prodThr) == String(prodThr._id)) {
+							// 循环prodThr中的sells 找出对应的 product
+							for(j=0;j<prodThr.sells.length;j++) {
+								// 找出与order相对应的 prodThr中的sell
+								if(String(prodThr.sells[j].order) == String(order._id)) {
+
+									prodThr.stock = parseInt(prodThr.stock) - (parseInt(quot) - parseInt(order.sells[i].quot)); // 库存
+									prodThr.sellQuot = parseInt(prodThr.sellQuot) + (parseInt(quot) - parseInt(order.sells[i].quot)); // 销量
+									if(quot == 0) {
+										// 删除 order.sells 和 prodThr.sells
+										prodThr.sells.remove(prodThr.sells[j])
+										order.sells.remove(order.sells[i])
+										flag = 2;
+									} else {
+										// 更新 order.sells 和 prodThr.sells
+										prodThr.sells[j].quot = parseInt(quot);
+										order.sells[i].quot = parseInt(quot);
+										flag = 3;
+									}
+									break;
+								}
 							}
+							break;
 						}
 					}
 					// 添加 order sells pd
 					if(flag == 1 && quot != 0) {
-						prodThr.stock = prodThr.stock - quot;
+						let pdSell = new Object();
+						pdSell.order = order._id;
+						pdSell.quot = parseInt(quot);
+						prodThr.sells.push(pdSell);
+						prodThr.stock = parseInt(prodThr.stock) - parseInt(quot);
+						prodThr.sellQuot = parseInt(prodThr.sellQuot) + parseInt(quot);
+
 						let sell = new Object();
 						sell.quot = quot;
 						sell.prodFir = prodThr.product._id
@@ -361,8 +384,8 @@ exports.bsOrderSettle = function(req, res) {
 					imp += sell.size * sell.quot * sell.price;
 				}
 			}
-			object.pieces = pieces;
-			object.imp = imp;
+			object.pieces = parseFloat(pieces);
+			object.imp = parseFloat(imp);
 			object.status = 2
 			object.save(function(err,objSave) {
 				if(err) console.log(err);
@@ -443,12 +466,12 @@ exports.bsOrderCp = function(req, res) {
 	let crWser = req.session.crWser;
 	let Lang = Language.wsLanguage('/wser', '/orderCp', crWser);
 	let object = req.body.object;
-	bsOrderSellsChange(req, object.sells, 0, -1);
+	bsOrderSellsChange(req, object._id, object.sells, 0, 1);
 	bsOrderCrt(req, res, object);
 }
 
 
-let bsOrderSellsChange = function(req, sells, m, sym) {
+let bsOrderSellsChange = function(req, orderId, sells, m, sym) {
 	if(m == sells.length) {
 		return;
 	}
@@ -456,12 +479,35 @@ let bsOrderSellsChange = function(req, sells, m, sym) {
 	let sell = sells[m];
 	Product.findOne({_id: sell.prodThr, 'group': crWser.group, 'layer': 3})
 	.exec(function(err, prodThr) {
-		if(err) console.log(err);
-		prodThr.stock = prodThr.stock + sym*sell.quot;
-		prodThr.save(function(err, prodThrSave) {
-			if(err) console.log(err);
-			bsOrderSellsChange(req, sells, m+1, sym);
-		})
+		if(err) {
+			console.log(err);
+			bsOrderSellsChange(req, orderId, sells, m+1, sym);
+		} else if(!prodThr) {
+			bsOrderSellsChange(req, orderId, sells, m+1, sym);
+		} else {
+			prodThr.stock = prodThr.stock - sym*sell.quot;
+			prodThr.sellQuot = prodThr.sellQuot + sym*sell.quot;
+			if(sym == 1) {
+				let pdSell = new Object();
+				pdSell.order = orderId,
+				pdSell.quot = sell.quot;
+				prodThr.sells.push(pdSell)
+			} else if(sym == -1) {
+				let len = prodThr.sells.length;
+				for(i=0;i<len;i++) {
+					let pdOrd = prodThr.sells[i].order;
+					if(pdOrd == orderId) {
+						prodThr.sells.remove(prodThr.sells[i]);
+						break;
+					}
+				}
+			}
+			prodThr.save(function(err, prodThrSave) {
+				if(err) console.log(err);
+				// console.log(prodThrSave)
+				bsOrderSellsChange(req, orderId, sells, m+1, sym);
+			})
+		}
 	})
 }
 
@@ -486,7 +532,7 @@ exports.bsOrderDel = function(req, res) {
 					info = "bsOrderDel, Order.deleteOne, Error!";
 					Err.wsError(req, res, info);
 				} else {
-					bsOrderSellsChange(req, order.sells, 0, 1);
+					bsOrderSellsChange(req, order._id, order.sells, 0, -1);
 					res.redirect("/bsOrders");
 				}
 			})

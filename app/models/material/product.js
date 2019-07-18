@@ -34,7 +34,10 @@ let dbSchema = new Schema({
 	size: Number,
 	stock: Number,
 
-	orders: [{type: ObjectId, ref: 'Order'}],
+	sells: [{
+		order: {type: ObjectId, ref: 'Order'},
+		quot: Number,
+	}],
 	sellQuot: {
 		type: Number,
 		default: 0

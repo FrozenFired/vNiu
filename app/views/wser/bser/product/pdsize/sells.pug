@@ -4,6 +4,7 @@
 - let totQuot = 0;
 if object.sells && object.sells.length > 0
 	-sells = object.sells;
+	h1 hello
 	table.table.table-border
 		thead
 			tr
@@ -23,6 +24,7 @@ if object.sells && object.sells.length > 0
 					td.opt(style="display:none")
 						button.delSell.btn.btn-danger(type="button", id=object._id+'-'+sell._id) <span class="oi oi-trash"></span>
 else
+	h1 world
 	p.p-2 #{Lang.nonRecord}
 
 if !isNaN(totQuot) && totQuot != object.sellQuot
