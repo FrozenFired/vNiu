@@ -139,7 +139,7 @@ exports.bsProd = function(req, res) {
 		objBody.thisAct = "/bsProd";
 		objBody.title = Lang.title;
 		objBody.Lang = Lang;
-
+		// console.log(object.prodcls)
 		res.render('./wser/bser/product/detail', objBody);
 	})
 }

@@ -96,6 +96,7 @@ let bsOrderCrt = function(req, res, cpOrder) {
 		orderObj.code = code;
 		orderObj.status = 0;
 		if(cpOrder) {
+			orderObj.status = 1;
 			orderObj.sells = cpOrder.sells;
 			orderObj.cter = cpOrder.cter;
 		}
@@ -240,22 +241,25 @@ exports.bsOrderPlusPdAjax = function(req, res) {
 				} else {
 					let flag = 1;
 					for(i=0; i<order.sells.length;i++){
-						if(String(order.sells[i].prodThr) == String(prodThr._id)) {
+						let sell = order.sells[i];
+						if(String(sell.prodThr) == String(prodThr._id)) {
+							prodThr.stock = prodThr.stock - (quot - sell.quot);
 							if(quot == 0) {
 								// 删除 order sells pd
-								order.sells.remove(order.sells[i])
+								order.sells.remove(sell)
 								flag = 2;
 								break;
 							} else {
 								// 更新 order sells pd
-								order.sells[i].quot = quot;
+								sell.quot = quot;
 								flag = 3;
 								break;
 							}
 						}
 					}
 					// 添加 order sells pd
-					if(flag == 1) {
+					if(flag == 1 && quot != 0) {
+						prodThr.stock = prodThr.stock - quot;
 						let sell = new Object();
 						sell.quot = quot;
 						sell.prodFir = prodThr.product._id
@@ -277,7 +281,9 @@ exports.bsOrderPlusPdAjax = function(req, res) {
 							order.status = 0;
 						}
 					}
-
+					prodThr.save(function(err, prodThrSave) {
+						if(err) console.log(err);
+					})
 					// console.log(order)
 					order.save(function(err, orderSave) {
 						if(err) console.log(err);
@@ -437,11 +443,27 @@ exports.bsOrderCp = function(req, res) {
 	let crWser = req.session.crWser;
 	let Lang = Language.wsLanguage('/wser', '/orderCp', crWser);
 	let object = req.body.object;
-
+	bsOrderSellsChange(req, object.sells, 0, -1);
 	bsOrderCrt(req, res, object);
 }
 
 
+let bsOrderSellsChange = function(req, sells, m, sym) {
+	if(m == sells.length) {
+		return;
+	}
+	let crWser = req.session.crWser;
+	let sell = sells[m];
+	Product.findOne({_id: sell.prodThr, 'group': crWser.group, 'layer': 3})
+	.exec(function(err, prodThr) {
+		if(err) console.log(err);
+		prodThr.stock = prodThr.stock + sym*sell.quot;
+		prodThr.save(function(err, prodThrSave) {
+			if(err) console.log(err);
+			bsOrderSellsChange(req, sells, m+1, sym);
+		})
+	})
+}
 
 
 
@@ -449,12 +471,27 @@ exports.bsOrderDel = function(req, res) {
 	let crWser = req.session.crWser;
 
 	let object = req.body.object;
-	Order.deleteOne({_id: object._id}, function(err, orderRm) { if(err) {
-		info = "删除订单时, 数据删除错误, 请联系管理员";
-		Err.wsError(req, res, info);
-	} else {
-		res.redirect("/bsOrders");
-	} })
+	Order.findOne({_id: object._id, 'group': crWser.group})
+	.exec(function(err, order) {
+		if(err) {
+			console.log(err);
+			info = "bsOrderDel, Order.findOne, Error!";
+			Err.wsError(req, res, info);
+		} else if(!order) {
+			info = "订单已经不存在, 请刷新查看!";
+			Err.wsError(req, res, info);
+		} else {
+			Order.deleteOne({_id: object._id}, function(err, orderRm) {
+				if(err) {
+					info = "bsOrderDel, Order.deleteOne, Error!";
+					Err.wsError(req, res, info);
+				} else {
+					bsOrderSellsChange(req, order.sells, 0, 1);
+					res.redirect("/bsOrders");
+				}
+			})
+		}
+	})
 }
 
 
@@ -463,7 +500,7 @@ exports.bsOrderDelAjax = function(req, res) {
 
 	let id = req.query.id;
 	Order.findOne({_id: id}, function(err, order){ if(err) {
-		res.json({success: 0, info: "删除订单时, 查找数据库错误, 请联系管理员"})
+		res.json({success: 0, info: "bsOrderDelAjax, Order.findOne, 请联系管理员"})
 	} else if(!order){
 		res.json({success: 0, info: "此订单已经被删除"})
 	} else if(order.group != crWser.group){

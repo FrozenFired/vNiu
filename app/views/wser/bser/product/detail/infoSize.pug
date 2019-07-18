@@ -59,12 +59,11 @@ table.table.table-bordered.mt-5
 							- pdSize = prodsz;
 							- break;
 					if pdSize
-						-a;
+						-stock = pdSize.stock;
 						td.pdsize(id="pdSize-"+pdSize._id)
-							span.txtSize.txtclsz(id="txtSize-"+pdSize._id) #{pdSize.stock}
+							span.txtSize.txtclsz(id="txtSize-"+pdSize._id) #{stock}
 							form.formSize.formclsz(id="formSize-"+pdSize._id, method="post", action="/bsProdszUpdAjax", style="display:none")
 								input(type="hidden", name="obj[_id]", value=pdSize._id)
-								input.iptSize.iptclsz.form-control(id="iptSize-"+pdSize._id, type="number", autocomplete="off", name="obj[stock]" value=pdSize.stock)
+								input.iptSize.iptclsz.form-control(id="iptSize-"+pdSize._id, type="number", autocomplete="off", name="obj[stock]" value=stock)
 					else
 						td x
-

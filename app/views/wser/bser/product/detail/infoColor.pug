@@ -14,14 +14,9 @@ each prodcl in object.prodcls
 	each prodsz in prodcl.prodszs
 		-a;
 		.row.border.mt-2.text-center(class="pdszPage pdszPage-"+prodcl._id, style="display:none")
-			.col-2.pt-3: h4: a(href='/bsProdsz/'+prodsz._id) #{prodsz.size}
-			.col-4.py-2
-				span #{Lang.stock}: #{prodsz.stock}
-				br
-				span #{Lang.sellQuot}: #{prodsz.sellQuot}
-			.col-2.py-3.bg-success <span class="oi oi-minus"></span>
-			.col-2.py-3 #{prodsz.stock}
-			.col-2.py-3.bg-success <span class="oi oi-plus"></span>
+			.col-4.pt-4: h4: a(href='/bsProdsz/'+prodsz._id) #{prodsz.size}
+			.col-4.py-4 #{Lang.stock}: #{prodsz.stock}
+			.col-4.py-4 #{Lang.sellQuot}: #{prodsz.sellQuot}
 
 
 
