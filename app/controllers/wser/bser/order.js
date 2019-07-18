@@ -30,7 +30,7 @@ exports.bsOrderAddPre =function(req, res) {
 				orders : objects,
 			})
 		}
-		else {					//否则查看是否有0状态的订单
+		else {					//否则查看是否有0状态的订单 , 因为没有参数，所以进行判断
 			res.redirect('/bsOrderAdd');
 		}
 	})
@@ -71,29 +71,37 @@ let bsOrderAddCrtdb = function(req, res) {
 		} else if(object){							// 如果存在0状态订单，直接编辑此订单
 			res.redirect('/bsOrderAdd?orderId='+object._id)
 		} else {									// 如果不存在0状态订单，新建订单再编辑
-			let today = new Date();
-			let begin = today.setHours(0, 0, 0, 0);
-			Order.findOne({	// 找出本人开出的今天最后一单
-				'ctAt': {'$gte': begin},
-				'creater': crWser._id,
-			})
-			.sort({"ctAt": -1})
-			.limit(1)
-			.exec(function(err, order) { if(err) {
-				info = "bsOrderAdd, Order.findOne, Error!";
-				Err.wsError(req, res, info);
-			} else {
-				let code = bsOrderGetCode(order, crWser.cd); // 为此单创建code
-				let orderObj = new Object();
-				orderObj.group = crWser.group;
-				orderObj.creater = crWser._id;
-				orderObj.code = code;
-				orderObj.status = 0;
-				let _order = new Order(orderObj);
-				bsOrderLoopSave(req, res, orderObj)
-			}})
+			bsOrderCrt(req, res);
 		}
 	})
+}
+let bsOrderCrt = function(req, res, cpOrder) {
+	let crWser = req.session.crWser;
+	let today = new Date();
+	let begin = today.setHours(0, 0, 0, 0);
+	Order.findOne({	// 找出本人开出的今天最后一单
+		'ctAt': {'$gte': begin},
+		'creater': crWser._id,
+	})
+	.sort({"ctAt": -1})
+	.limit(1)
+	.exec(function(err, order) { if(err) {
+		info = "bsOrderAdd, Order.findOne, Error!";
+		Err.wsError(req, res, info);
+	} else {
+		let code = bsOrderGetCode(order, crWser.cd); // 为此单创建code
+		let orderObj = new Object();
+		orderObj.group = crWser.group;
+		orderObj.creater = crWser._id;
+		orderObj.code = code;
+		orderObj.status = 0;
+		if(cpOrder) {
+			orderObj.sells = cpOrder.sells;
+			orderObj.cter = cpOrder.cter;
+		}
+		let _order = new Order(orderObj);
+		bsOrderLoopSave(req, res, orderObj)
+	}})
 }
 let bsOrderLoopSave = function(req, res, obj) {
 	let crWser = req.session.crWser;
@@ -132,10 +140,6 @@ let bsOrderLoopSave = function(req, res, obj) {
 let bsOrderAddShowPage = function(req, res, order) {
 	let crWser = req.session.crWser;
 	let Lang = Language.wsLanguage('/wser', '/orderAdd', crWser);
-	// console.log('bsOrderAddShowPage')
-	// console.log(order)
-	// console.log('bsOrderAddShowPage')
-	// console.log('-------------------')
 	res.render('./wser/bser/order/add', {
 		title: Lang.title,
 		Lang: Lang,
@@ -167,7 +171,7 @@ let bsOrderGetCode = function(order, userCd) {
 }
 
 
-
+// 模糊查找出产品
 exports.bsOrderProdsAjax = function(req, res) {
 	let crWser = req.session.crWser;
 	let keyword = ' x x x ';
@@ -191,7 +195,7 @@ exports.bsOrderProdsAjax = function(req, res) {
 		res.json({success: 1, objects: objects})
 	} })
 }
-
+// 选择唯一的产品操作
 exports.bsOrderProdIdAjax = function(req, res) {
 	let crWser = req.session.crWser;
 	let id = req.query.id;
@@ -209,6 +213,7 @@ exports.bsOrderProdIdAjax = function(req, res) {
 	} })
 }
 
+// orderAdd 操作 order中的 pd
 exports.bsOrderPlusPdAjax = function(req, res) {
 	let crWser = req.session.crWser;
 	let orderId = req.query.orderId;
@@ -284,6 +289,7 @@ exports.bsOrderPlusPdAjax = function(req, res) {
 	})
 }
 
+// orderAdd 点击选择客户
 exports.bsOrderConnCterAjax = function(req, res) {
 	let crWser = req.session.crWser;
 	let orderId = req.query.orderId;
@@ -413,65 +419,30 @@ exports.bsOrder = function(req, res) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 exports.bsOrderUp = function(req, res) {
 	let crWser = req.session.crWser;
 	let Lang = Language.wsLanguage('/wser', '/orderUp', crWser);
 
 	let object = req.body.object;
-	let objBody = new Object();
-	objBody.object = object;
-	objBody.group = object.group;
-	objBody.title = Lang.title;
-	objBody.Lang = Lang;
-	objBody.crWser = crWser;
-	objBody.thisAct = "/bsOrder";
-	objBody.thisUrl = "/bsOrderUp";
-
-	res.render('./wser/bser/order/update', objBody);
+	res.redirect('/bsOrderAdd?orderId='+object._id)
 }
+
+
+
+
+
+
 
 exports.bsOrderCp = function(req, res) {
 	let crWser = req.session.crWser;
 	let Lang = Language.wsLanguage('/wser', '/orderCp', crWser);
-
 	let object = req.body.object;
-	let objBody = new Object();
-	objBody.object = object;
-	objBody.group = object.group;
-	objBody.title = Lang.title;
-	objBody.Lang = Lang;
-	objBody.crWser = crWser;
-	objBody.thisAct = "/bsOrder";
-	objBody.thisUrl = "/bsOrderCp";
 
-	let today = new Date();
-	let begin = today.setHours(0, 0, 0, 0);
-	Order.findOne({
-		'ctAt': {'$gte': begin},
-		'operater': req.session.crWser.code,
-	})
-	.sort({"ctAt": -1})
-	.limit(1)
-	.exec(function(err, order) { if(err) {
-		info = "销售订单数据库中的数据错误, 请联系管理员";
-		Err.wsError(req, res, info);
-	} else {
-		objBody.code = bsOrderGetCode(order, crWser.cd);
-		res.render('./wser/bser/order/copy', objBody);
-	}})
+	bsOrderCrt(req, res, object);
 }
+
+
+
 
 
 exports.bsOrderDel = function(req, res) {
@@ -485,102 +456,6 @@ exports.bsOrderDel = function(req, res) {
 		res.redirect("/bsOrders");
 	} })
 }
-exports.bsOrderUpd = function(req, res) {
-	let crWser = req.session.crWser;
-	let obj = req.body.obj;
-	
-	if(obj.products) {
-		// obj.imp = parseFloat(obj.imp);
-		obj.rlp = parseFloat(obj.imp);
-
-		obj.imp = 0;
-		obj.pieces = 0;
-		obj.arts = 0;
-
-		let products = new Array();
-		for(i in obj.products) {
-			if(obj.products[i].code){
-				if(obj.products[i] && obj.products[i].code instanceof Array) {
-					for(let j=0; j<obj.products[i].code.length; j++){
-						let product = new Object();
-						product.code = obj.products[i].code[j]
-						product.nome = obj.products[i].nome[j]
-						product.photo = obj.products[i].photo[j]
-						product.quot = parseInt(obj.products[i].quot[j])
-						product.price = parseFloat(obj.products[i].price[j])
-						product.total = parseFloat(obj.products[i].total[j])
-						products.push(product)
-						obj.pieces += product.quot;
-						obj.arts++;
-						obj.imp += product.total;
-					}
-				} else {
-					let product = obj.products[i]
-					product.quot = parseInt(product.quot)
-					product.price = parseFloat(product.price)
-					product.total = parseFloat(product.total)
-					products.push(product)
-
-					obj.pieces += product.quot;
-					obj.arts++;
-					obj.imp += product.total;
-				}
-			}
-		}
-		if(isNaN(obj.rlp)){
-			obj.rlp = obj.imp;
-		}
-		obj.products = products
-		
-		if(!obj.cter) obj.cter = null;
-	}
-
-
-	Order.findOne({_id: obj._id}, function(err, order) { if(err) {
-			info = "更新订单时, 查找数据库错误, 请联系管理员";
-			Err.wsError(req, res, info);
-	} else if(!order) {
-		info = "此订单已经被删除，返回销售记录查看";
-		Err.wsError(req, res, info);
-	} else if(order.group != crWser.group) {
-		info = "您不可以更改非本公司订单, 请联系管理员";
-		Err.wsError(req, res, info);
-	} else {
-		let _order = _.extend(order, obj)
-		_order.save(function(err, objSave) {
-			if(err) {
-				// console.log(err)
-				info = "更新订单时, 数据保存错误, 请联系管理员";
-				Err.wsError(req, res, info);
-			} else {
-				res.redirect('/bsOrder/'+objSave._id);
-			}
-		})
-	} })
-
-}
-
-
-
-
-exports.bsOrderStatus = function(req, res) {
-	let id = req.query.id
-	let newStatus = req.query.newStatus
-	Order.findOne({_id: id}, function(err, object){
-		if(err) console.log(err);
-		if(object){
-			object.status = parseInt(newStatus)
-			object.save(function(err,objSave) {
-				if(err) console.log(err);
-				res.json({success: 1, info: "已经更改"});
-			})
-		} else {
-			res.json({success: 0, info: "已被删除，按F5刷新页面查看"});
-		}
-	})
-}
-
-
 
 
 exports.bsOrderDelAjax = function(req, res) {
@@ -601,6 +476,17 @@ exports.bsOrderDelAjax = function(req, res) {
 		} })
 	} })
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -638,6 +524,7 @@ exports.bsOrderTicket = function(req, res) {
 	})
 }
 
+// order Detail 关联 客户
 exports.bsOrderRelCter = function(req, res) {
 	let crWser = req.session.crWser;
 
@@ -662,21 +549,6 @@ exports.bsOrderRelCter = function(req, res) {
 		} })
 	} })
 }
-
-exports.bsOrderAjaxPds = function(req, res) {
-	let crWser = req.session.crWser;
-	let id = req.query.id
-	Order.findOne({_id: id}, function(err, order) { if(err) {
-		res.json({success: 0, info: "更新订单时, 订单数据库查找错误, 请联系管理员"})
-	} else if(!order) {
-		res.json({success: 0, info: "没找到此订单，请刷新订单列表查看"})
-	} else if(!order.products || order.products.length < 1){
-		res.json({success: 0, info: "此订单中的产品数量为0，请联系管理员"})
-	} else {
-		res.json({success: 1, products: order.products})
-	} })
-}
-
 
 
 
@@ -763,7 +635,7 @@ exports.bsOrdersAjax = function(req, res) {
 		'code': new RegExp(condWord + '.*'),
 		'ctAt': {[symCreatS]: condCreatS, [symCreatF]: condCreatF},
 		'operater': {[symOper]: condOper},
-	}, {products:0})
+	}, {sells:0})
 	.populate('cter', 'nome')
 	.sort({"ctAt": -1})
 	.exec(function(err, orders) { if(err) {
@@ -858,7 +730,7 @@ exports.bsOrdersMonthAjax = function(req, res) {
 		'code': new RegExp(condWord + '.*'),
 		'ctAt': {[symCreatS]: condCreatS, [symCreatF]: condCreatF},
 		'operater': {[symOper]: condOper},
-	}, {products:0})
+	}, {sells:0})
 	.populate('cter')
 	.sort({"ctAt": -1})
 	.exec(function(err, orders) { if(err) {
@@ -887,15 +759,18 @@ exports.bsOrderExcel = function(req, res) {
 	});
 	
 	let ws = wb.addWorksheet('Sheet 1');
-	ws.column(1).setWidth(10);
-	ws.column(2).setWidth(15);
-	ws.column(3).setWidth(15);
-	ws.column(4).setWidth(10);
+	ws.column(1).setWidth(8);
+	ws.column(2).setWidth(12);
+	ws.column(3).setWidth(12);
+	ws.column(4).setWidth(12);
 	ws.column(5).setWidth(10);
-	ws.column(6).setWidth(15);
+	ws.column(6).setWidth(10);
+	ws.column(7).setWidth(10);
+	ws.column(8).setWidth(10);
+	ws.column(9).setWidth(15);
 
+	// 第一行： 表头 自己的公司名称
 	let rw = 1;
-
 	ws.row(rw).setHeight(35);
 	style = wb.createStyle({
 		font: {color: '#228B22', size: 18,},
@@ -903,9 +778,9 @@ exports.bsOrderExcel = function(req, res) {
 			horizontal: ['center'],
 		},
 	})
-	ws.cell(rw, 1, rw, 6, true).string(group.code).style(style)
+	ws.cell(rw, 1, rw, 9, true).string(group.code).style(style)
+	// 第二行 副标题
 	rw++;
-
 	ws.row(rw).setHeight(20);
 	style = wb.createStyle({
 		font: {color: '#808080', size: 15,},
@@ -914,51 +789,60 @@ exports.bsOrderExcel = function(req, res) {
 			vertical: ['top']
 		},
 	})
-	ws.cell(rw, 1, rw, 6, true).string('PREVENTIVO').style(style)
+	ws.cell(rw, 1, rw, 9, true).string('PREVENTIVO').style(style)
+	// 第三行 地址和订单号
 	rw++;
-
 	ws.cell(rw,1).string('地址');
-	if(group && group.addr) ws.cell(rw,2).string(String(group.addr));
-	ws.cell(rw, 3, rw, 4, true).string(' ')
-	ws.cell(rw,5).string('No:');
-	if(order.code) ws.cell(rw,6).string(String(order.code));
+	if(group && group.addr) ws.cell(rw,2, rw,3, true).string(String(group.addr));
+	ws.cell(rw, 4, rw, 6, true).string(' ')
+	ws.cell(rw,7).string('No:');
+	if(order.code) ws.cell(rw,8, rw,9, true).string(String(order.code));
+	// 第四行 电话和日期
 	rw++;
-
 	ws.cell(rw,1).string('电话');
-	if(group && group.tel) ws.cell(rw,2).string(String(group.tel));
-	ws.cell(rw, 3, rw, 4, true).string(' ')
-	ws.cell(rw,5).string('Date:');
-	if(order.code) ws.cell(rw,6).string(moment(order.ctAt).format('MM/DD/YYYY'));
+	if(group && group.tel) ws.cell(rw,2, rw,3, true).string(String(group.tel));
+	ws.cell(rw, 4, rw, 6, true).string(' ')
+	ws.cell(rw,7).string('Date:');
+	if(order.code) ws.cell(rw,8, rw,9, true).string(moment(order.ctAt).format('MM/DD/YYYY'));
+	// 第五行 空一行
 	rw++;
-
-	ws.cell(rw, 1, rw, 6, true).string(' ')
+	ws.cell(rw, 1, rw, 9, true).string(' ')
+	// 第六行 table header
 	rw++;
-	// header
 	ws.cell(rw,1).string('NB.');
 	ws.cell(rw,2).string('CODICE');
 	ws.cell(rw,3).string('DESC.');
-	ws.cell(rw,4).string('QNT');
-	ws.cell(rw,5).string('PREZZO');
-	ws.cell(rw,6).string('TOTAL');
+	ws.cell(rw,4).string('材质');
+	ws.cell(rw,5).string('门幅');
+	ws.cell(rw,6).string('长度');
+	ws.cell(rw,7).string('QNT');
+	ws.cell(rw,8).string('PREZZO');
+	ws.cell(rw,9).string('TOTAL');
 
 	rw++;
 
-	if(order.products) {
-		let len = order.products.length;
+	if(order.sells) {
+		let len = order.sells.length;
 		for(let i=0; i<len; i++){
-			let product = order.products[i];
+			let sell = order.sells[i];
+			let tot = sell.size * sell.quot * sell.price
 			ws.row(rw).setHeight(25);
 			ws.cell((rw), 1).string(String(i+1));
-			if(product.code) ws.cell((rw), 2).string(String(product.code));
-			if(product.nome) ws.cell((rw), 3).string(String(product.nome));
-			if(!isNaN(parseInt(product.quot))) {
-				ws.cell((rw), 4).string(String(product.quot));
+			if(sell.code) ws.cell((rw), 2).string(String(sell.code));
+			if(sell.nome) ws.cell((rw), 3).string(String(sell.nome));
+			if(sell.material) ws.cell((rw), 4).string(String(sell.material));
+			if(sell.width) ws.cell((rw), 5).string(String(sell.width));
+			if(!isNaN(parseInt(sell.size))) {
+				ws.cell((rw), 6).string(String(sell.size));
 			}
-			if(!isNaN(parseFloat(product.price))) {
-				ws.cell((rw), 5).string((product.price).toFixed(2) + ' €');
+			if(!isNaN(parseInt(sell.quot))) {
+				ws.cell((rw), 7).string(String(sell.quot));
 			}
-			if(!isNaN(parseFloat(product.total))) {
-				ws.cell((rw), 6).string((product.total).toFixed(2) + ' €');
+			if(!isNaN(parseFloat(sell.price))) {
+				ws.cell((rw), 8).string((sell.price).toFixed(2) + ' €');
+			}
+			if(!isNaN(parseFloat(sell.total))) {
+				ws.cell((rw), 9).string((tot).toFixed(2) + ' €');
 			}
 
 			rw++;
@@ -966,11 +850,8 @@ exports.bsOrderExcel = function(req, res) {
 
 		ws.row(rw).setHeight(30);
 		ws.cell((rw), 2).string('T.Art: '+ len);
-		ws.cell((rw), 4).string('Tot: '+ order.pieces +'pz');
-		ws.cell((rw), 6).string('IMP: '+ Math.round(order.imp * 100)/100);
-		rw++;
-
-		ws.cell((rw), 6).string('实收: '+ Math.round(order.imp * 100)/100);
+		ws.cell((rw), 7).string('Tot: '+ order.pieces +'pz');
+		ws.cell((rw), 9).string('IMP: '+ Math.round(order.imp * 100)/100);
 		rw++;
 	}
 

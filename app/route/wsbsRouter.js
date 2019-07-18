@@ -115,9 +115,6 @@ module.exports = function(app){
 	app.get('/bsOrderCp/:id', MdRole.bserIsLogin, Ctod.bsOrderFilter, Ctod.bsOrderCp)
 	app.get('/bsOrderDel/:id', MdRole.bserIsLogin, Ctod.bsOrderFilter, Ctod.bsOrderDel)
 
-	app.get('/bsOrderAjaxPds', MdRole.bserIsLogin, Ctod.bsOrderAjaxPds)
-	app.post('/bsOrderUpd', MdRole.bserIsLogin, postForm, Ctod.bsOrderUpd)
-
 	app.get('/bsOrderAddPre', MdRole.bserIsLogin, MdRole.singleWsLogin, Ctod.bsOrderAddPre)
 	app.get('/bsOrderAdd', MdRole.bserIsLogin, Ctod.bsOrderAdd)
 	app.get('/bsOrderProdsAjax', MdRole.bserIsLogin, Ctod.bsOrderProdsAjax) // orderAdd 模糊查询
@@ -128,7 +125,6 @@ module.exports = function(app){
 
 
 	app.delete('/bsOrderDelAjax', MdRole.bserIsLogin, Ctod.bsOrderDelAjax)
-	// app.get('/bsOrderStatus', MdRole.bserIsLogin, Ctod.bsOrderStatus)
 	app.get('/bsOrderPrinting', MdRole.bserIsLogin, Ctod.bsOrderPrinting)
 	app.get('/bsOrderTicket', MdRole.bserIsLogin, Ctod.bsOrderTicket)
 	

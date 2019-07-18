@@ -19,7 +19,7 @@
 					-a;
 					a.btn.btn-info.btn-block(href="/bsBill/"+object.bill) <span class="oi oi-magnifying-glass"></span> #{Lang.bill}
 				else
-					a.btn.btn-info.btn-block(href="/bsBillAdd?cter="+cter._id+"&order="+object._id+"&unpaid="+object.rlp) <span class="oi oi-plus"></span> #{Lang.bill}
+					a.btn.btn-info.btn-block(href="/bsBillAdd?cter="+cter._id+"&order="+object._id+"&unpaid="+object.imp) <span class="oi oi-plus"></span> #{Lang.bill}
 		.col-4
 		.col-4
 			a.btn.btn-info.btn-block(href="/bsRoadAdd?orderId="+object._id) #{Lang.transDocu}
@@ -38,20 +38,20 @@
 		.col-8.clientInfo(style="display:none")
 			form#formCters
 				input#ajaxCters.form-control(type="text", autocomplete="off")
-	.clientInfo(style="display:none")
-		.row.ctersAjax.text-center
-			.col-4
-				a(href="/bsCterAdd?order="+object._id)
-					div(class="card cancel m-2 bg-warning")
-						.card-body
-							.card-title #{Lang.newCl}
-			.col-8
-				div(class="card cancel m-2 bg-warning" id="client")
-					//- img.card-img-top(src="..." alt="Card image cap")
+.clientInfo(style="display:none")
+	.row.ctersAjax.text-center
+		.col-4
+			a(href="/bsCterAdd?order="+object._id)
+				div(class="card cancel m-2 bg-warning")
 					.card-body
-						h5.card-title #{Lang.cancelCl}
-		hr
-		.row.cterAllAjax
+						.card-title #{Lang.newCl}
+		.col-8
+			div(class="card cancel m-2 bg-warning" id="client")
+				//- img.card-img-top(src="..." alt="Card image cap")
+				.card-body
+					h5.card-title #{Lang.cancelCl}
+	hr
+	.row.cterAllAjax
 div(style="height:20px")
 
 script(src="/js/bser/order/detail/clientAjax.js")

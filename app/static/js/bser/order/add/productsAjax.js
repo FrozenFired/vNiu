@@ -233,11 +233,22 @@ $(function() {
 			let prodszs = prodcl.prodszs;
 			for(j=0;j<prodszs.length;j++) {
 				let prodsz = prodszs[j];
+
+				let ordPdQuot = 0, ordPdTot=0;
+				// 查看订单中所有的售卖，是否有此产品
+				for(m=0;m<order.sells.length;m++){
+					if(order.sells[m].prodThr == prodsz._id) {
+						let sell = order.sells[m]; 
+						ordPdQuot = sell.quot;
+						ordPdTot = sell.price * sell.quot * sell.size;
+					}
+				}
 				str += '<div class="row border mt-2 text-center productShow">';
 					str += '<div class="col-2 pt-3">' + prodsz.size + '</div>'
 
 					str += '<div class="col-3 py-2">';
-						str += '<span>0</span>'
+						str += '<span class="ordPdTot", id="ordPdTot-'+prodsz._id+'">';
+							str += ordPdTot+'</span>'
 						str += '<span> €</span>'
 					str += '</div>'
 
@@ -246,14 +257,8 @@ $(function() {
 					str += '</div>'
 
 					str += '<div class="col-3 py-2">'
-						let ordQuot = 0;
-						for(m=0;m<order.sells.length;m++){
-							if(order.sells[m].prodThr == prodsz._id) {
-								ordQuot = order.sells[m].quot;
-							}
-						}
 						str += '<input class="form-control quot" id="quot-'+prodsz._id;
-						str +='" type="number", value='+ordQuot+'>';
+						str +='" type="number", value='+ordPdQuot+'>';
 					str += '</div>'
 
 					str += '<div class="col-2 py-3 bg-success plus" id="plus-'+prodsz._id+'">';
@@ -270,24 +275,35 @@ $(function() {
 	$("#prodPage").on('click', '.plus', function(e) {
 		let thrId = $(this).attr('id').split('-')[1];
 		let quot = parseInt($("#quot-"+thrId).val()) + 1;
-		$("#quot-"+thrId).val(quot)
 		url = ajaxPlusPd+'?orderId='+order._id+'&thrId='+thrId+'&quot='+quot;
 
-		orderRelProd(url);
+		orderRelProd(url, thrId);
 	})
 	// 点击minus按钮 
 	$("#prodPage").on('click', '.minus', function(e) {
 		let thrId = $(this).attr('id').split('-')[1];
 		let quot = parseInt($("#quot-"+thrId).val()) - 1;
 		if(quot>=0){
-			$("#quot-"+thrId).val(quot)
+			
 			url = ajaxPlusPd+'?orderId='+order._id+'&thrId='+thrId+'&quot='+quot;
 
-			orderRelProd(url);
+			orderRelProd(url, thrId);
 		}
 	})
+	// 焦点离开 数量
+	$("#prodPage").on('change', '.quot', function(e) {
+		let thrId = $(this).attr('id').split('-')[1];
+		let quot = parseInt($("#quot-"+thrId).val());
+		if(isNaN(quot)) {
+			quot = 0;
+		} else if(quot<0){
+			quot = -quot;
+		}
+		url = ajaxPlusPd+'?orderId='+order._id+'&thrId='+thrId+'&quot='+quot;
+		orderRelProd(url, thrId);
+	})
 	// 把产品quot 添加到此订单中
-	let orderRelProd = function(url) {
+	let orderRelProd = function(url, thrId) {
 		$.ajax({
 			type: 'get',
 			url: url
@@ -296,22 +312,34 @@ $(function() {
 			if(results.success === 1) {
 				// console.log(results.order)
 				order = results.order;
-				$("#artText").text(order.sells.length)
-
 				let imp = 0;
 				let pz = 0;
+				let pdSell = new Object();
+				pdSell.quot = 0;
+				pdSell.size = 0;
+				pdSell.price = 0;
 				for(i=0;i<order.sells.length;i++){
-					let price = parseFloat(order.sells[i].price);
-					let size = parseInt(order.sells[i].size);
-					let quot = parseInt(order.sells[i].quot);
-					let tot = price*size*quot;
-					if(!isNaN(tot)){
+					let sell = order.sells[i];
+					let price = parseFloat(sell.price);
+					let size = parseInt(sell.size);
+					let quot = parseInt(sell.quot);
+					// 计算出购物车中的 总件数 和总价格
+					if(!isNaN(price) && !isNaN(size) && !isNaN(quot)){
+						let tot = price*size*quot;
 						imp += tot;
 						pz += quot;
 					}
+					// 找到正在操作销售的产品
+					if(sell.prodThr == thrId) {
+						pdSell = sell;
+					}
 				}
+				$("#artText").text(order.sells.length)
 				$("#pzText").text(pz)
 				$("#impText").text(imp)
+
+				$("#quot-"+thrId).val(pdSell.quot)
+				$("#ordPdTot-"+thrId).text(pdSell.quot*pdSell.price*pdSell.size)
 			}
 		})
 	}
@@ -433,6 +461,7 @@ $(function() {
 	}
 	ajaxClient();
 
+	// 点击所选客户
 	$('.clientSel').on("click", ".clientCard", function(e) {
 		let clientName = ($(this).attr('id')).split('-')[0];
 		let clientId = ($(this).attr('id')).split('-')[1];

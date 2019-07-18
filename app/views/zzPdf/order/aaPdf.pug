@@ -18,37 +18,36 @@ block content
 				tr.text-left
 					th Codice
 					th Desc
+					th 材质
+					th 门幅
+					th 长度
 					th QNT
 					th Prezzo
 					th Total(€)
 			tbody
-				-var proLen = order.products.length;
-				-var proNum = 0;
-				each product in order.products
-					-proNum += product.quot;
+				-let pz = 0;
+				each sell in order.sells
+					-let tot = sell.size * sell.quot * sell.price;
+					-pz += sell.quot;
 					tr
-						td #{product.code}
-						td #{product.nome}
-						td.textRight #{product.quot}
+						td #{sell.code}
+						td #{sell.nome}
+						td #{sell.material}
+						td #{sell.width}
+						td #{sell.size}
+						td.textRight #{sell.quot}
 						-let pdPrice = 'NaN';
-						if product.price && !isNaN(product.price)
-							- pdPrice = (product.price).toFixed(2);
+						if sell.price && !isNaN(sell.price)
+							- pdPrice = (sell.price).toFixed(2);
 						td.textRight #{pdPrice}
-						-let pdTotal = 'NaN';
-						if product.total && !isNaN(product.total)
-							- pdTotal = (product.total).toFixed(2);
-						td.textRight #{pdTotal}
+						td.textRight #{tot.toFixed(2)}
 				tr
 					td(colspan="5") &nbsp;
 		table.tableA4
 			tr
-				th(colspan="2") T.Art: #{proLen}
-				th Tot: #{proNum} pz
+				th(colspan="2") T.Art: #{order.sells.length}
+				th Tot: #{pz} pz
 				-let odImp = 'NaN'
 				if order.imp && !isNaN(order.imp)
 					-odImp = (order.imp).toFixed(2);
 				th(colspan="2").text-center IMP:  #{odImp} €
-		if order.rlp != order.imp
-			.row.text-right.bg-info 
-				.col-12
-					h2 实收: #{(order.rlp).toFixed(2)} €
