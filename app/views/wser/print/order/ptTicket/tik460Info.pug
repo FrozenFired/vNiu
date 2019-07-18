@@ -1,44 +1,38 @@
 .row
-	.col-4: h5 Codice
-	.col-8: h5 Desc
+	.col-3: h5 Codice
+	.col-3: h5 Desc
+	.col-3: h5 Width
 .row
-	.col-4: h5 QNT
-	.col-4: h5 Prezzo
+	.col-3: h5 Size
+	.col-2: h5 QNT
+	.col-3: h5 Prezzo
 	.col-4.text-right: h5 Total(€)
--var proLen = object.products.length;
--var proNum = 0;
-each product in object.products
-	-proNum += product.quot;
+-var pz = 0;
+each sell in object.sells
+	-let tot = sell.quot * sell.size * sell.price
+	-pz += sell.quot;
 	.row.border-top.mt-2
-		.col-4: h5 #{product.code}
+		.col-3: h5 #{sell.code}
 		-let pdPrice = 'NaN';
-		if product.price && !isNaN(product.price)
-			- pdPrice = (product.price).toFixed(2);
-		.col-8: h5 #{product.nome}
+		if sell.price && !isNaN(sell.price)
+			- pdPrice = (sell.price).toFixed(2);
+		.col-3: h5 #{sell.nome}
+		.col-3: h5 #{sell.width}
 	.row
-		.col-4: h5 &nbsp;&nbsp;#{product.quot} pz
-		.col-4: h5 &nbsp;&nbsp;#{pdPrice} €
-		-let pdTotal = 'NaN';
-		if product.total && !isNaN(product.total)
-			- pdTotal = (product.total).toFixed(2);
-		.col-4.text-right: h5 #{pdTotal} €
+		.col-3: h5 &nbsp;&nbsp;#{sell.size}
+		.col-2: h5 &nbsp;&nbsp;#{sell.quot}
+		.col-3: h5 &nbsp;&nbsp;#{pdPrice} €
+		.col-4.text-right: h5 #{tot.toFixed(2)} €
 
 
 .row.mt-5
-	.col-4: h4 T.Art: #{proLen}
-	.col-4: h4 Tot: #{proNum} pz
+	.col-4: h4 T.Art: #{object.sells.length}
+	.col-4: h4 Tot: #{pz} pz
 	-let odImp = 'NaN'
 	if object.imp && !isNaN(object.imp)
 		-odImp = (object.imp).toFixed(2);
 .row.mt-3.text-right
 	.col-12.text-right: h3 IMP:  <strong>#{odImp}</strong> €
-if object.rlp != object.imp
-	-a;
-	.row.mt-3.text-right 
-		.col-4
-		.col-4: del #{odImp} €
-		.col-4.text-right 
-			h6 实收: #{(object.rlp).toFixed(2)} €
 
 .row.mt-5
 	- let foot = "Thank you!";
