@@ -62,29 +62,29 @@ $(function() {
 
 
 	/* 对出售记录的更改 */
-	// $("#opt").click(function(e) {
-	// 	$(".opt").toggle();
-	// })
-	// $('.delSell').click(function(e) {
-	// 	let ids = $(this).attr("id").split('-')
-	// 	let prodId = ids[0]
-	// 	let sellId = ids[1]
-	// 	let tr = $('.sell-id-' + sellId)
-	// 	$.ajax({
-	// 		type: 'DELETE',
-	// 		url: '/bsProdDelSell?prodId=' + prodId + '&sellId=' + sellId
-	// 	})
-	// 	.done(function(results) {
-	// 		if(results.success === 1) {
-	// 			if(tr.length > 0) {
-	// 				tr.remove()
-	// 			}
-	// 		}
-	// 		if(results.success === 0) {
-	// 			alert(results.info)
-	// 		}
-	// 	})
-	// })
+	$("#opt").click(function(e) {
+		$(".opt").toggle();
+	})
+	$('.delSell').click(function(e) {
+		let ids = $(this).attr("id").split('-')
+		let prodId = ids[0]
+		let sellId = ids[1]
+		let tr = $('.sell-id-' + sellId)
+		$.ajax({
+			type: 'DELETE',
+			url: '/bsProdszDelSell?prodId=' + prodId + '&sellId=' + sellId
+		})
+		.done(function(results) {
+			if(results.success === 1) {
+				if(tr.length > 0) {
+					tr.remove()
+				}
+			}
+			if(results.success === 0) {
+				alert(results.info)
+			}
+		})
+	})
 	/* 对出售记录的更改 */
 	/* ----------------- Prod Color -------------------- */
 })

@@ -27,7 +27,6 @@ $( function() {
 					$(".ajaxInfo").text($("#oldPd").val())
 					$(".btnNewPd").hide()
 					$(".newPd").hide()
-					$(".plusPd").hide()
 
 					products[0] = results.product;
 					showProduct(products[0], 0)
@@ -35,7 +34,6 @@ $( function() {
 					$(".ajaxInfo").text($("#oldNew").val())
 					$(".btnNewPd").show()
 					$(".newPd").hide()
-					$(".plusPd").hide()
 
 					products = results.products;
 					for(let i=0; i<products.length; i++) {
@@ -45,14 +43,12 @@ $( function() {
 					$(".ajaxInfo").text($("#iptPd").val())
 					$(".newPd").show()
 					$(".btnNewPd").hide()
-					$(".plusPd").hide()
 				}
 			})
 		} else {
 			$(".ajaxInfo").text($("#codeRule").val())
 			$(".newPd").hide()
 			$(".btnNewPd").hide()
-			$(".plusPd").hide()
 		}
 	}
 
@@ -74,7 +70,11 @@ $( function() {
 							str += '<div class="col-6"><h5 class="card-text">'+nome+'</h5></div>';
 						str += '</div>';
 						str += '<div class="row">'
-							str += '<div class="col-6">'
+							str += '<div class="col-6">'+product.material+'</div>';
+							str += '<div class="col-6">'+product.width+'</div>';
+						str += '</div>';
+						str += '<div class="row">'
+							str += '<div class="col-12">'
 								if(product.price && !isNaN(product.price)){
 									price = (product.price).toFixed(2) + ' €';
 								} else {
@@ -82,10 +82,6 @@ $( function() {
 								}
 								// p.card-text #{(object.price).toFixed(2)}
 								str += '<p class="card-text">'+price+'</p>'
-							str += '</div>';
-							str += '<div class="col-6">'
-								// p.card-text(class=textStock) 库存:#{object.stock}
-								str += '<p class="card-text textStock">'+ $("#stock").val() +':'+product.stock+'</p>' 
 							str += '</div>';
 						str += '</div>';
 					str += '</div>';
@@ -107,21 +103,7 @@ $( function() {
 		let arr = parseInt($(this).attr('id'));
 		let product = products[arr];
 
-		$('.ajaxPds').remove();
-		$(".ajaxInfo").text($("#buyQuot").val())
-		$(".btnNewPd").hide()
-		$(".plusPd").show()
-		$("#iptId").val(product._id)
-		$("#pdNome").text(product.nome)
-		$("#pdPrice").text(product.price)
-		$("#pdStock").text(product.stock)
-		$("#orgStock").val(product.stock)
-
-		$(".proImg").empty();
-		str = '<a href="/bsProd/'+product._id+'">';
-		str += '<img src='+dns+product.photo+' height="180px" />';
-		str += '</a>'
-		$(".proImg").append(str);
+		window.location.href = "/bsProd/"+product._id;
 
 	})
 

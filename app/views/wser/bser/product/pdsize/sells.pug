@@ -4,7 +4,6 @@
 - let totQuot = 0;
 if object.sells && object.sells.length > 0
 	-sells = object.sells;
-	h1 hello
 	table.table.table-border
 		thead
 			tr
@@ -13,6 +12,7 @@ if object.sells && object.sells.length > 0
 				td.opt(style="display:none") <span class="oi oi-trash"></span>
 		tbody
 			each sell in sells
+				-a;
 				tr(class='sell-id-'+sell._id)
 					td
 						if sell.order
@@ -24,7 +24,6 @@ if object.sells && object.sells.length > 0
 					td.opt(style="display:none")
 						button.delSell.btn.btn-danger(type="button", id=object._id+'-'+sell._id) <span class="oi oi-trash"></span>
 else
-	h1 world
 	p.p-2 #{Lang.nonRecord}
 
 if !isNaN(totQuot) && totQuot != object.sellQuot
@@ -33,4 +32,4 @@ if !isNaN(totQuot) && totQuot != object.sellQuot
 		.col-9
 			h3.text-info #{Lang.stcSell}: #{totQuot}
 		.col-3
-			a.btn.btn-danger(href="/bsProdProof/"+object._id) <span class="oi oi-wrench"></span>
+			a.btn.btn-danger(href="/bsProdszProof/"+object._id) <span class="oi oi-wrench"></span>

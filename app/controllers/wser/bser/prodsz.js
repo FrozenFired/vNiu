@@ -12,6 +12,7 @@ let _ = require('underscore');
 exports.bsProdszFilter = function(req, res, next) {
 	let crWser = req.session.crWser;
 	let id = req.params.id;
+	// console.log(id)
 	ObjDB.findOne({_id: id, 'group': crWser.group, 'layer': 3})
 	.populate('product')
 	.populate('prodcl')
@@ -106,7 +107,7 @@ exports.bsProdszProof = function(req, res) {
 			info = 'bsProdProof, object.save, Error!';
 			Err.wsError(req, res, info);
 		} else {
-			res.redirect('/bsProd/'+object._id)
+			res.redirect('/bsProdsz/'+object._id)
 		}
 	})
 }

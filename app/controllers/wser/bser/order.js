@@ -136,6 +136,7 @@ let bsOrderLoopSave = function(req, res, obj, cpOrder) {
 				info = "bsOrderLoopSave, _order.save, Error!";
 				Err.wsError(req, res, info);
 			} else if(cpOrder) {
+				bsOrderSellsChange(req, objSave._id, obj.sells, 0, 1);
 				res.redirect('/bsOrder/'+objSave._id)
 			} else {
 				res.redirect('/bsOrderAdd?orderId='+objSave._id)
@@ -466,7 +467,6 @@ exports.bsOrderCp = function(req, res) {
 	let crWser = req.session.crWser;
 	let Lang = Language.wsLanguage('/wser', '/orderCp', crWser);
 	let object = req.body.object;
-	bsOrderSellsChange(req, object._id, object.sells, 0, 1);
 	bsOrderCrt(req, res, object);
 }
 
@@ -495,8 +495,8 @@ let bsOrderSellsChange = function(req, orderId, sells, m, sym) {
 			} else if(sym == -1) {
 				let len = prodThr.sells.length;
 				for(i=0;i<len;i++) {
-					let pdOrd = prodThr.sells[i].order;
-					if(pdOrd == orderId) {
+					if(prodThr.sells[i].order == orderId) {
+						console.log(1)
 						prodThr.sells.remove(prodThr.sells[i]);
 						break;
 					}
@@ -526,6 +526,9 @@ exports.bsOrderDel = function(req, res) {
 		} else if(!order) {
 			info = "订单已经不存在, 请刷新查看!";
 			Err.wsError(req, res, info);
+		} else if(order.bill) {
+			info = "此订单还有未付款, 请先清除付款!";
+			Err.wsError(req, res, info);
 		} else {
 			Order.deleteOne({_id: object._id}, function(err, orderRm) {
 				if(err) {
@@ -545,19 +548,22 @@ exports.bsOrderDelAjax = function(req, res) {
 	let crWser = req.session.crWser;
 
 	let id = req.query.id;
-	Order.findOne({_id: id}, function(err, order){ if(err) {
-		res.json({success: 0, info: "bsOrderDelAjax, Order.findOne, 请联系管理员"})
-	} else if(!order){
-		res.json({success: 0, info: "此订单已经被删除"})
-	} else if(order.group != crWser.group){
-		res.json({success: 0, info: "您不可以删除非本公司订单, 请联系管理员"})
-	} else {
-		Order.deleteOne({_id: order._id}, function(err, orderRm) { if(err) {
-			res.json({success: 0, info: "删除订单时, 数据删除错误, 请联系管理员"})
+	Order.findOne({_id: id, 'group': crWser.group})
+	.exec(function(err, order){ 
+		if(err) {
+			res.json({success: 0, info: "bsOrderDelAjax, Order.findOne, 请联系管理员"})
+		} else if(!order){
+			res.json({success: 0, info: "此订单已经被删除"})
+		} else if(order.bill){
+			res.json({success: 0, info: "此订单还有未付款, 请先清除付款!"})
 		} else {
-			res.json({success: 1})
-		} })
-	} })
+			Order.deleteOne({_id: order._id}, function(err, orderRm) { if(err) {
+				res.json({success: 0, info: "删除订单时, 数据删除错误, 请联系管理员"})
+			} else {
+				res.json({success: 1})
+			} })
+		}
+	})
 }
 
 
